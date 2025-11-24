@@ -1,0 +1,15 @@
+.editClassContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 130px;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1250px;
+  }
+}

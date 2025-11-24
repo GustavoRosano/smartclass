@@ -1,0 +1,63 @@
+:root {
+  /* colors */
+  --background: #1F1F1F;
+  --primary-color: #37ADA5;
+  --white-label-color: #FFFFFF;
+  --header-background: #d9d9d915;
+  --alert-label-color: #8F8C32;
+  --danger-label-color: #922A2A;
+  --dark-label-color: #1F1F1F;
+
+  /* font-sizes */
+
+  /* Titles */
+  --font-h1-desktop: 64px;
+  --font-h1-mobile: 32px;
+
+  /* Cards */
+  --class-card-title-desktop: 40px;
+  --class-card-title-mobile: 16px;
+  --class-subtext-desktop: 18px;
+  --class-subtext-mobile: 12px;
+  --class-button-desktop: 16px;
+  --class-button-mobile: 14px;
+
+  /* General Texts */
+  --content-page-class-title-desktop: 40px;
+  --content-page-class-title-mobile: 32px;
+  --content-page-class-subtitle-desktop: 32px;
+  --content-page-class-subtitle-mobile: 28px;
+  --content-page-class-text-desktop: 18px;
+  --content-page-class-text-mobile: 16px;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
