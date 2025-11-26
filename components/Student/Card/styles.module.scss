@@ -1,0 +1,90 @@
+.card {
+    display: flex;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 110px;
+    height: 420px;
+    border-radius: 40px;
+    box-shadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.25);
+    -webkit-box-shadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.25);
+    -moz-box-shadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+
+    @media screen and (max-width: 768px) {
+        width: 220px;
+        height: 63px;
+    }
+
+    .overlay {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        padding: 35px 27px;
+        gap: 5px;
+        background-color: #000000a1;
+        border-radius: 40px;
+        width: 100%;
+
+        .classNumber,
+        .classTitle,
+        .cardButton {
+            display: none;
+        }
+
+        .classNumber {
+            font-size: var(--class-subtext-desktop);
+            font-weight: 300;
+
+            @media screen and (max-width: 768px) {
+                font-size: var(--class-subtext-mobile);
+            }
+        }
+
+        .classTitle {
+            font-size: var(--class-card-title-desktop);
+            font-weight: bold;
+
+            @media screen and (max-width: 768px) {
+                font-size: 30px;
+            }
+        }
+
+        .cardButton {
+            font-size: var(--class-button-desktop);
+            font-weight: bold;
+            padding: 10px;
+            border: 2px solid var(--white-label-color);
+            border-radius: 10px;
+            margin-top: 15px;
+
+            @media screen and (max-width: 768px) {
+                font-size: var(--class-button-mobile);
+            }
+        }
+    }
+}
+
+.card.active {
+    width: 310px;
+    height: 515px;
+    box-shadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.25);
+    cursor: default;
+
+    @media screen and (max-width: 768px) {
+        width: 280px;
+        height: 100%;
+        min-height: 190px;
+    }
+
+    .overlay {
+        background-color: #00000067;
+
+        .classNumber,
+        .classTitle,
+        .cardButton {
+            display: block;
+        }
+    }
+}

@@ -6,6 +6,8 @@ Seu objetivo é entregar uma interface gráfica moderna, responsiva e eficiente 
 
 O sistema foi construído com **Next.js**, utilizando **TypeScript**, **Material UI**, **SCSS Modules** e arquitetura baseada em componentes funcionais. O projeto fornece um front-end organizado, modular e pronto para integração total com os endpoints REST do backend.
 
+A aplicação foi publicada na Vercel com o objetivo de otimizar a entrega e proporcionar um ambiente de testes mais acessível: [https://smartclass-fase-3.vercel.app/](SmartClass)
+
 ---
 
 ## 📘 1. Visão Geral do Projeto
@@ -106,6 +108,18 @@ Acesse no navegador:
 👉 http://localhost:3000
 
 ---
+
+## 📝 6. Usuários para testar
+
+Lista de usuários para que seja possível testar o sistema:
+
+> Usuário 1 (Aluno):
+- **Email:** aluno@teste.com
+- **Senha:** 123456
+
+> Usuário 2 (Professor):
+- **Email:** professor@teste.com
+- **Senha:** 123456
 
 ## 📝 6. Considerações Finais
 
