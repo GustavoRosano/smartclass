@@ -29,6 +29,9 @@
   --content-page-class-subtitle-mobile: 28px;
   --content-page-class-text-desktop: 18px;
   --content-page-class-text-mobile: 16px;
+
+  /* Container */
+  --container-width: 1250px;
 }
 
 html,

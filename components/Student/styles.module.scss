@@ -1,0 +1,70 @@
+.studentPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    height: 100%;
+    min-height: 100vh;
+  }
+
+  .overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 90px 130px;
+    background-color: #000000d2;
+    width: 100%;
+    height: 100vh;
+
+    @media screen and (max-width: 768px) {
+      padding: 40px 20px;
+      height: 100%;
+      min-height: 100vh;
+      justify-content: flex-start;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: var(--container-width);
+      gap: 60px;
+
+      @media screen and (max-width: 768px) {
+        gap: 30px;
+      }
+
+      .classTitle {
+        color: var(--white-label-color);
+        font-size: var(--font-h1-desktop);
+        font-weight: bold;
+
+        @media screen and (max-width: 768px) {
+          font-size: var(--font-h1-mobile);
+          text-align: center;
+        }
+      }
+
+      .cards {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+    }
+  }
+}
