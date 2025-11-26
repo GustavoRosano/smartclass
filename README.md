@@ -107,6 +107,18 @@ Acesse no navegador:
 
 ---
 
+## 📝 6. Usuários para testar
+
+Lista de usuários para que seja possível testar o sistema:
+
+> Usuário 1 (Aluno):
+- **Email:** aluno@teste.com
+- **Senha:** 123456
+
+> Usuário 2 (Professor):
+- **Email:** professor@teste.com
+- **Senha:** 123456
+
 ## 📝 6. Considerações Finais
 
 O SmartClass fornece uma base robusta para o Tech Challenge Fase 03, combinando:
