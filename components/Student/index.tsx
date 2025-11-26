@@ -3,6 +3,8 @@ import styles from './styles.module.scss';
 
 import Card from './Card';
 
+// TODO: Transformar cards em dinâmicos
+
 const classeCards = [
   {
     id: "12354",
