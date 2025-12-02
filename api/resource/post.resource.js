@@ -1,0 +1,208 @@
+const axios = require('axios');
+const jsonServer = axios.create({ 
+    // Aponta para o JSON-Server
+    baseURL: 'http://localhost:3001' 
+});
+ 
+
+const getPosts = async(req, res) => {
+    try{
+
+        const response = await jsonServer.get('/post');
+        
+        const posts  = response.data;
+
+        return res.status(200).json({posts});
+
+    }catch(error){
+
+        if (error.response) {
+
+            return res
+            .status(error.response.status)
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+                error_details: error.response.data
+            });
+        }
+        return res.status(500).json({ 
+            message: 'Ocorreu o seguinte erro ao buscar os POSTS: ' + error.message,
+            error: error.message,
+        });
+    }
+}
+
+const getPostId = async(req, res) => {
+    const { id } = req.params;
+
+    if(!id){
+        return res
+            .status(400)
+            .json({message:`O parâmetro "id" deve ser informado!`})
+    }
+    try{
+
+        const response = await jsonServer.get(`/post`);
+
+        const post = response.data;
+
+        const postFilter = post.filter(p => p.id === id);
+
+        return res.status(200).json(postFilter);
+
+        
+    }catch(error){
+
+        if (error.response) {
+
+            return res
+            .status(error.response.status)
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+                error_details: error.response.data
+            });
+
+        }
+        
+        return res.status(500).json({ 
+            message: 'Ocorreu o seguinte erro ao buscar um POST: ' + error.message,
+            error: error.message,
+        });
+    }
+}
+
+const postPosts = async(req, res)=> {
+    const {title, content, userId, urlImage} = req.body;
+    const post = req.body;
+
+    if(!title|| !content|| !userId|| !urlImage){
+        
+        return res
+            .status(400)
+            .json({messsage:" As seguintes informações são obrigatórias: title, content, userId, urlImage"});
+    }
+    try{
+        
+        const response = await jsonServer.post('/post', post);
+         
+        postCreated = response.data;
+
+        res.status(200).json({postCreated})
+    }catch(error){
+        
+        if (error.response) {
+
+            return res
+            .status(error.response.status)
+            .json({ message: error.response.data.message || 'Erro na comunicação com o servidor de dados (JSON-Server).',
+                error_details: error.response.data
+            });
+        }
+        return res.status(500).json({ 
+            message: 'Ocorreu o seguinte erro ao cadastrar um POST: ' + error.message,
+            error: error.message,
+        });
+    }
+
+}
+
+const putPost = async(req, res) => {
+    const { id } = req.params;
+    const postUpdate = req.body;
+
+    if(!id){
+        return res 
+            .status(400)
+            .json({message: `O parâmetro "id" do post deve ser informado!`});
+    }
+
+    try{
+
+        const response = await jsonServer.put(`/post/${id}`, postUpdate);
+
+        const postUpdated = response.data;
+
+        return res
+            .status(200)
+            .json({message: `O post de id: ${postUpdated.id}, foi alterado com sucesso!`,
+                   post: postUpdated });
+            
+    }catch(error){
+
+        if(error.response){
+
+            let _message = 'Erro na comunicação com o servidor de dados (JSON-Server).';
+
+            if(error.response.data == 'Not Found'){
+                _message = 'Post não encontrado através do id informado!';
+            }
+
+            return res
+                .status(error.response.status)
+                .json({message: error.response.data.message || _message,
+                       error_details: error.response.data 
+                });
+        }
+
+        return res
+            .status(500).json({
+                message: 'Ocorreu o seguinte erro ao alterar um POST: ' + error.message,
+                error: error.message,
+            })
+
+    }
+
+}
+
+const deletePost = async(req, res) => {
+    const { id } = req.params;
+
+    if(!id){
+        return res 
+            .status(400)
+            .json({message: `O parâmetro "id" do post deve ser informado!`});
+    }
+
+    try{ 
+            const response = await jsonServer.delete(`/post/${id}`);
+
+            const postDeleted = response.data;
+
+            return res
+                .status(200)
+                .json({message: "Post excluído com sucesso!",
+                       post: postDeleted
+                });
+         
+
+    }catch(error){
+
+        if(error.response){
+
+            let _message = 'Erro na comunicação com o servidor de dados (JSON-Server).';
+            
+            if(error.response.data == 'Not Found'){
+                _message = 'Post não encontrado através do id informado!';
+            }
+
+            return res 
+                .status(error.response.status)
+                .json({message: error.response.data.message || _message,
+                       error_details: error.response.data
+                });
+        }
+            return res
+                .status(500)
+                .json({message: 'Ocorreu um erro ao excluir Post' + error.message,
+                       error: error.message 
+                });
+
+    }
+
+
+}
+
+module.exports = {getPosts, 
+                  getPostId, 
+                  postPosts,
+                  putPost,
+                  deletePost
+                  };

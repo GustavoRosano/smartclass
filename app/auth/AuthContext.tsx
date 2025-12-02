@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { default as api } from '../../api/middle.axios';
 
 type User = {
   id: string;
@@ -24,28 +25,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function login(email: string, senha: string) {
-    if (senha !== "123456") return false;
+    try{
+    const response = await api.get<User[]>('/api/users/login', {
+           params:{
+              email: email,
+              password: senha
+           }
+        });
+     
+     const foundUsers = response.data;
+       
+        // Verifica se o array tem um usuário (login bem-sucedido)
+        if (foundUsers[0].email === email) {
+           
+            const loggedInUser = foundUsers[0];
+           
+            setUser(loggedInUser);
+            localStorage.setItem("user", JSON.stringify(loggedInUser));
+            return true;
+       
+        } else {
+           // falha: Array vazio (credenciais incorretas)
+            return false;
+        }
 
-    const mockUsers: Record<string, User> = {
-      "professor@teste.com": {
-        id: "1",
-        email: "professor@teste.com",
-        role: "professor",
-      },
-      "aluno@teste.com": {
-        id: "2",
-        email: "aluno@teste.com",
-        role: "aluno",
-      },
-    };
-
-    const found = mockUsers[email];
-    if (!found) return false;
-
-    setUser(found);
-    localStorage.setItem("user", JSON.stringify(found));
-    return true;
-  }
+    } catch (error) {
+        console.error("Erro na API ou na lógica:", error);
+        return false;
+    }
+   
+   }
 
   function logout() {
     setUser(null);
