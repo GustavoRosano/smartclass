@@ -1,0 +1,52 @@
+{
+  "user": [
+    {
+      "id": "2",
+      "name": "Aluno de Souza",
+      "email": "aluno@gmail.com",
+      "password": "654321",
+      "role": "aluno"
+    },
+    {
+      "id": "8bb6",
+      "name": "José das Couves",
+      "email": "jose.couves@gmail.com",
+      "password": "7890",
+      "role": "professor"
+    },
+    {
+      "id": "e565",
+      "name": "José das Couves",
+      "email": "jose.couves@gmail.com",
+      "password": "7890",
+      "role": "professor"
+    },
+    {
+      "id": "04a7",
+      "name": "Marcos Vasques",
+      "email": "marcos.vasques@gmail.com",
+      "password": "7890",
+      "role": "aluno"
+    }
+  ],
+  "post": [
+    {
+      "id": "f58d",
+      "title": "JS",
+      "content": "conteudo teste...",
+      "userId": 1,
+      "urlImage": "https://br.freepik.com/fotos-vetores-gratis/-images",
+      "posted": true,
+      "excluded": false
+    },
+    {
+      "id": "b815",
+      "title": "JS",
+      "content": "conteudo teste...",
+      "userId": 1,
+      "urlImage": "https://br.freepik.com/fotos-vetores-gratis/-images",
+      "posted": true,
+      "excluded": false
+    }
+  ]
+}
