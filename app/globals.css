@@ -15,7 +15,7 @@
   --font-h1-mobile: 32px;
 
   /* Cards */
-  --class-card-title-desktop: 40px;
+  --class-card-title-desktop: 35px;
   --class-card-title-mobile: 16px;
   --class-subtext-desktop: 18px;
   --class-subtext-mobile: 12px;
@@ -32,6 +32,9 @@
 
   /* Container */
   --container-width: 1250px;
+
+  /* Student Content Page */
+  --student-content-page-title-desktop: 
 }
 
 html,
