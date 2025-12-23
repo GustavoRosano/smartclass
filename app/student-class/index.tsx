@@ -9,9 +9,6 @@ type Props = {
 
 export default function StudentClass({ classData }: Props) {
 
-  console.log('classData: ', classData);
-
-
   return (
     <div className={styles.studentClass}>
       <div className={styles.container}>

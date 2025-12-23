@@ -34,7 +34,23 @@
   --container-width: 1250px;
 
   /* Student Content Page */
-  --student-content-page-title-desktop: 
+  --student-content-page-margin-top-desktop: 65px;
+  --student-content-page-margin-top-mobile: 0;
+  --student-content-page-header-gap: 46px;
+  --student-content-page-banner-width: 100%;
+  --student-content-page-banner-max-width: 420px;
+  --student-content-page-banner-height: 100%;
+  --student-content-page-banner-max-height: 280px;
+  --student-content-page-banner-border-radius: 14px;
+  --student-content-page-title-container-gap: 10px;
+  --student-content-page-title-font-weight: 700;
+
+  /* General Content Page */
+  --general-content-page-padding-desktop: 20px 130px;
+  --general-content-page-padding-mobile: 40px 20px;
+  --general-content-page-height: 100%;
+  --general-content-page-min-height: 100vh;
+  --general-content-page-container-width: 100%;
 }
 
 html,

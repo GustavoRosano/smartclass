@@ -1,15 +1,13 @@
-// TODO: mudar para variaveis
-
 .contentPage {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 130px;
+  padding: var(--general-content-page-padding-desktop);
 
   @media screen and (max-width: 768px) {
-    padding: 40px 20px;
-    height: 100%;
-    min-height: 100vh;
+    padding: var(--general-content-page-padding-mobile);
+    height: var(--general-content-page-height);
+    min-height: var(--general-content-page-min-height);
     justify-content: flex-start;
   }
 
@@ -18,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: var(--general-content-page-container-width);
     max-width: var(--container-width);
   }
 }

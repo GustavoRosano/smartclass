@@ -2,17 +2,9 @@ import styles from './styles.module.scss';
 import { Button } from '@mui/material';
 
 import ClassCard from './ClassCard';
+import { classesMock } from "@/app/mocks/classes";
 
 export default function Teacher() {
-
-  const classeCards = [
-    {
-      classNumber: "Aula 1",
-      teacher: "Gustavo",
-      title: "User Flow",
-      image: "/classes/banner-aula-1.png",
-    }
-  ];
 
   return (
     <div className={styles.teacherPage}>
@@ -21,13 +13,15 @@ export default function Teacher() {
         <Button variant='contained' className={styles.newClasseButton}>Nova Aula</Button>
 
         <div className={styles.cards}>
-          {classeCards.map((classe, index) => (
+          {classesMock.map((classe, index) => (
             <ClassCard
-              key={index}
-              classNumber={classe.classNumber}
-              teacher={classe.teacher}
-              classTitle={classe.title}
-              classImage={classe.image}
+              key={classe.id}
+                id={classe.id}
+                classNumber={classe.classNumber}
+                teacher={classe.teacher}
+                classTitle={classe.title}
+                classImage={classe.image}
+                link={`/aula-${classe.id}`}
             />
           ))}
         </div>

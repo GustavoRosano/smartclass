@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 
 import Teacher from "../components/Teacher";
 import Student from "../components/Student";
+import Header from "@/components/Header";
 
 export default function Home() {
   const { user, logout } = useAuth();
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <Header />
         {/* <Button onClick={logout} variant="contained" style={{ backgroundColor: "#d9534f", marginTop: "20px" }}>
           Sair
         </Button> */}

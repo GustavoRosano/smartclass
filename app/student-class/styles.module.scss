@@ -4,10 +4,10 @@
   width: 100%;
 
   .container {
-    margin-top: 65px;
+    margin-top: var(--student-content-page-margin-top-desktop);
 
     @media screen and (max-width: 768px) {
-      margin-top: 0;
+      margin-top: var(--student-content-page-margin-top-mobile);
     }
 
     .header {
@@ -15,25 +15,25 @@
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      gap: 46px;
+      gap: var(--student-content-page-header-gap);
 
       .classBanner {
-        width: 100%;
-        max-width: 420px;
-        height: 100%;
-        max-height: 280px;
-        border-radius: 14px;
+        width: var(--student-content-page-banner-width);
+        max-width: var(--student-content-page-banner-max-width);
+        height: var(--student-content-page-banner-height);
+        max-height: var(--student-content-page-banner-max-height);
+        border-radius: var(--student-content-page-banner-border-radius);
       }
 
       .titleContainer {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: var(--student-content-page-title-container-gap);
 
         .title {
-          color: #37ADA5;
+          color: var(--primary-color);
           font-size: var(--content-page-class-title-desktop);
-          font-weight: 700;
+          font-weight: var(--student-content-page-title-font-weight);
           text-shadow: 0 0 10px rgba(55, 173, 165, 0.7);
 
           @media screen and (max-width: 768px) {
