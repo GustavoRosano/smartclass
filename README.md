@@ -105,11 +105,6 @@ npm run dev
 ### ▶️ Rode o backend do diretório /api
 node server.js
 
-### ▶️ Rode o json-sever à partir do comando
- 
- json-server --watch db.json --port 3001
- 
-
 Acesse no navegador:
 
 👉 http://localhost:3000
