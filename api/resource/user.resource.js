@@ -1,9 +1,7 @@
 const axios = require('axios');
-const jsonServer = axios.create({ 
-    // Aponta para o JSON-Server
-    baseURL: 'http://localhost:3001' 
-});
- 
+
+const jsonServer = require('../api.externa');
+
 const getUserLogin = async (req, res) => {
 
     const { email, password } = req.query;
@@ -15,7 +13,7 @@ const getUserLogin = async (req, res) => {
     }
 
     try {
-        const response = await jsonServer.get('/user', {});
+        const response = await jsonServer.get('/users', {});
 
         const foundUsers = response.data;
 
@@ -40,7 +38,7 @@ const getUserLogin = async (req, res) => {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados.',
                 error_details: error.response.data
             });
         }
@@ -53,11 +51,18 @@ const getUserLogin = async (req, res) => {
 
 const getUser = async(req, res) => {
     
+    const usersActive = req.query.isActive ==='true';
+
     try{
 
-        const response = await jsonServer.get('/user');
+        const response = await jsonServer.get('/users');
 
-        const users = response.data;
+        let users = response.data;
+
+        if(req.query.isActive !== undefined){
+
+            users = users.filter(u => u.isActive === usersActive);
+        }
 
         return res.status(200).json(users); 
 
@@ -66,7 +71,7 @@ const getUser = async(req, res) => {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados.',
                 error_details: error.response.data
             });
         }
@@ -89,7 +94,7 @@ const getUserId = async(req, res) => {
 
     try{
 
-        const response = await jsonServer.get('/user', id);
+        const response = await jsonServer.get('/users', id);
 
         const user = response.data;
 
@@ -103,7 +108,7 @@ const getUserId = async(req, res) => {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados.',
                 error_details: error.response.data
             });
         }
@@ -117,16 +122,16 @@ const getUserId = async(req, res) => {
 
 
 const postUser = async(req, res)=> {
-    const {name, email, password, role }  = req.body;
+    const {name, username, email, password, role }  = req.body;
     const user = req.body;
 
-    if(!name || !email || !password || !role){
+    if(!name || !username || !email || !password || !role){
         
-        return res.status(400).json({messsage:" As seguintes informações são obrigatórias: name, email, password e role "});
+        return res.status(400).json({messsage:" As seguintes informações são obrigatórias: name, username, email, password e role "});
     }
     try{
         
-        const response = await jsonServer.post('/user', user);
+        const response = await jsonServer.post('/users', user);
          
         userCreated = response.data;
 
@@ -137,7 +142,7 @@ const postUser = async(req, res)=> {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao se conectar com o servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao se conectar com o servidor de dados.',
                 error_details: error.response.data
             });
         }
@@ -163,7 +168,7 @@ const putUser = async(req, res) => {
 
     try{
 
-         const response = await jsonServer.put(`/user/${id}`, dadosUpdate);
+         const response = await jsonServer.put(`/users/${id}`, dadosUpdate);
          
          const updateUser = response.data;
          
@@ -178,7 +183,7 @@ const putUser = async(req, res) => {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao se conectar com o servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao se conectar com o servidor de dados.',
                 error_details: error.response.data
             });
         }
@@ -200,7 +205,7 @@ const deleteUser = async(req, res) => {
     }
 
     try{
-            const response = await jsonServer.delete(`/user/${id}`);
+            const response = await jsonServer.delete(`/users/${id}`);
 
             const userExcluded = response.data;
 
@@ -217,7 +222,7 @@ const deleteUser = async(req, res) => {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao se conectar com o servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao se conectar com o servidor de dados.',
                 error_details: error.response.data
             });
         }

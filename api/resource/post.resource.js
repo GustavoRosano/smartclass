@@ -1,16 +1,17 @@
 const axios = require('axios');
-const jsonServer = axios.create({ 
-    // Aponta para o JSON-Server
-    baseURL: 'http://localhost:3001' 
-});
- 
+const jsonServer = require('../api.externa');
 
 const getPosts = async(req, res) => {
+    
+    const isExcludedRequested = req.query.excluded === 'true';
+    
     try{
+        const response = await jsonServer.get('/posts');
+        let posts  = response.data;
 
-        const response = await jsonServer.get('/post');
-        
-        const posts  = response.data;
+        if(req.query.excluded !== undefined){
+            posts = posts.filter(p => p.excluded === isExcludedRequested);
+        }
 
         return res.status(200).json({posts});
 
@@ -20,7 +21,7 @@ const getPosts = async(req, res) => {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados.',
                 error_details: error.response.data
             });
         }
@@ -41,22 +42,17 @@ const getPostId = async(req, res) => {
     }
     try{
 
-        const response = await jsonServer.get(`/post`);
-
+        const response = await jsonServer.get(`/posts/${id}`);
         const post = response.data;
+        return res.status(200).json(post);
 
-        const postFilter = post.filter(p => p.id === id);
-
-        return res.status(200).json(postFilter);
-
-        
     }catch(error){
 
         if (error.response) {
 
             return res
             .status(error.response.status)
-            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados (JSON-Server).',
+            .json({ message: error.response.data.message || 'Erro ao buscar dados no servidor de dados.',
                 error_details: error.response.data
             });
 
@@ -81,7 +77,7 @@ const postPosts = async(req, res)=> {
     }
     try{
         
-        const response = await jsonServer.post('/post', post);
+        const response = await jsonServer.post('/posts', post);
          
         postCreated = response.data;
 
@@ -116,7 +112,7 @@ const putPost = async(req, res) => {
 
     try{
 
-        const response = await jsonServer.put(`/post/${id}`, postUpdate);
+        const response = await jsonServer.put(`/posts/${id}`, postUpdate);
 
         const postUpdated = response.data;
 
@@ -162,7 +158,7 @@ const deletePost = async(req, res) => {
     }
 
     try{ 
-            const response = await jsonServer.delete(`/post/${id}`);
+            const response = await jsonServer.delete(`/posts/${id}`);
 
             const postDeleted = response.data;
 
@@ -200,7 +196,7 @@ const deletePost = async(req, res) => {
 
 }
 
-module.exports = {getPosts, 
+module.exports = {getPosts,
                   getPostId, 
                   postPosts,
                   putPost,
