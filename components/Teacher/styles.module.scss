@@ -2,7 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 130px;
+  padding: 150px 130px;
+
+  @media screen and (max-width: 768px) {
+    padding: 64px 24px;
+  }
 
   .container {
     display: flex;
@@ -12,6 +16,98 @@
     width: 100%;
     max-width: var(--container-width);
 
-    .cards {}
+    .classTitle {
+      color: var(--primary-color);
+      font-size: 64px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 24px;
+      text-shadow: 1px 0px 10px rgba(55, 173, 165, 0.71);
+
+      @media screen and (max-width: 768px) {
+        font-size: 32px;
+        margin-bottom: 40px;
+      }
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 30px;
+
+      @media screen and (max-width: 768px) {
+        margin-bottom: 40px;
+        flex-direction: column-reverse;
+        gap: 20px;
+      }
+
+      .searchInput {
+        width: 100%;
+        max-width: 650px;
+
+        :global(.MuiOutlinedInput-root) {
+          background-color: #282828;
+          border-radius: 65px;
+          padding-right: 12px;
+          box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.25);
+          -webkit-box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.25);
+          -moz-box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+          @media screen and (max-width: 768px) {
+            height: 40px;
+          }
+
+          :global(input) {
+            color: var(--white-label-color);
+            padding: 16px 20px;
+          }
+
+          :global(fieldset) {
+            border: none;
+          }
+
+          &:hover :global(fieldset) {
+            border: none;
+          }
+
+          &.Mui-focused :global(fieldset) {
+            border: none;
+          }
+
+          :global(svg) {
+            color: var(--white-label-color);
+          }
+        }
+      }
+
+      .newClasseButton {
+        background-color: var(--primary-color);
+        border-radius: 20px;
+        color: var(--white-label-color);
+        font-size: 20px;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 40px;
+        height: 40px;
+
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
+      }
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 30px;
+    }
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ClassContent } from "../types/ClassContent";
 import dynamic from "next/dynamic";
 import styles from './styles.module.scss';
 import TextField from '@mui/material/TextField';
@@ -10,9 +11,39 @@ const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
 });
 
-export default function NewClass() {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [content, setContent] = useState<string>("");
+type Props = {
+  classData: ClassContent;
+};
+
+function classContentToHtml(content: ClassContent["content"]) {
+  return content
+    .map(block => {
+      switch (block.type) {
+        case "title":
+          return `<h1>${block.value}</h1>`;
+        case "subtitle":
+          return `<h2>${block.value}</h2>`;
+        case "text":
+          return `<p>${block.value}</p>`;
+        case "link":
+          return `<p><a href="${block.value}" target="_blank">${block.value}</a></p>`;
+        default:
+          return "";
+      }
+    })
+    .join("");
+}
+
+export default function TeacherEditClass({ classData }: Props) {
+  const [imagePreview, setImagePreview] = useState<string | null>(classData.image);
+  const [title, setTitle] = useState(classData.title);
+  const [author, setAuthor] = useState(classData.teacher);
+  const [tag, setTag] = useState(classData.classNumber);
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    setContent(classContentToHtml(classData.content));
+  }, [classData]);
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -21,7 +52,7 @@ export default function NewClass() {
     }
   }
 
-  const modules: Record<string, unknown> = {
+  const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline"],
@@ -55,15 +86,30 @@ export default function NewClass() {
 
           <div className={styles.titleInputsContainer}>
             <div className={styles.titleInput}>
-              <TextField label="Título da aula" fullWidth />
+              <TextField
+                label="Título da aula"
+                fullWidth
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
 
             <div className={styles.author}>
               <div className={styles.tagInput}>
-                <TextField label="Tag" fullWidth />
+                <TextField
+                  label="Tag"
+                  fullWidth
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                />
               </div>
               <div className={styles.authorInput}>
-                <TextField label="Autor" fullWidth />
+                <TextField
+                  label="Autor"
+                  fullWidth
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
+                />
               </div>
             </div>
           </div>

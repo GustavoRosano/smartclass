@@ -1,0 +1,22 @@
+.contentPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--general-content-page-padding-desktop);
+
+  @media screen and (max-width: 768px) {
+    padding: var(--general-content-page-padding-mobile);
+    height: var(--general-content-page-height);
+    min-height: var(--general-content-page-min-height);
+    justify-content: flex-start;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: var(--general-content-page-container-width);
+    max-width: var(--container-width);
+  }
+}

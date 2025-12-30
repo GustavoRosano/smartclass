@@ -1,0 +1,107 @@
+.studentClass {
+  width: 100%;
+
+  .container {
+    margin-top: var(--student-content-page-margin-top-desktop);
+
+    @media screen and (max-width: 768px) {
+      margin-top: var(--student-content-page-margin-top-mobile);
+    }
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      gap: var(--student-content-page-header-gap);
+
+      .classBanner {
+        width: var(--student-content-page-banner-width);
+        max-width: var(--student-content-page-banner-max-width);
+        height: var(--student-content-page-banner-height);
+        max-height: var(--student-content-page-banner-max-height);
+        border-radius: var(--student-content-page-banner-border-radius);
+      }
+
+      .titleContainer {
+        display: flex;
+        flex-direction: column;
+        gap: var(--student-content-page-title-container-gap);
+
+        .title {
+          color: var(--primary-color);
+          font-size: var(--content-page-class-title-desktop);
+          font-weight: var(--student-content-page-title-font-weight);
+          text-shadow: 0 0 10px rgba(55, 173, 165, 0.7);
+
+          @media screen and (max-width: 768px) {
+            font-size: var(--content-page-class-title-mobile);
+          }
+        }
+
+        .class {
+          color: var(--white-label-color);
+          font-size: var(--content-page-class-text-desktop);
+        }
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      margin-top: 48px;
+      gap: 21px;
+
+      h2 {
+        color: var(--primary-color);
+        font-size: 40px;
+        font-weight: 700;
+        text-shadow: 0 0 10px rgba(55, 173, 165, 0.7);
+
+        @media screen and (max-width: 768px) {
+          font-size: 36px;
+        }
+      }
+
+      h3 {
+        color: var(--primary-color);
+        font-size: 32px;
+        font-weight: 700;
+        text-shadow: 0 0 10px rgba(55, 173, 165, 0.7);
+
+        @media screen and (max-width: 768px) {
+          font-size: 28px;
+        }
+      }
+
+      p {
+        color: var(--white-label-color);
+        font-size: 18px;
+
+        @media screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+
+      b {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 18px;
+
+        @media screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: underline;
+        font-size: 18px;
+
+        @media screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

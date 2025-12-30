@@ -5,7 +5,9 @@ import { default as api } from '../../api/middle.axios';
 type User = {
   id: string;
   email: string;
+  name: string;
   role: "professor" | "aluno";
+  matter?: string
 };
 
 type AuthContextType = {

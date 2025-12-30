@@ -7,7 +7,11 @@ export const metadata: Metadata = {
   description: "Projeto feito para a fase 3 da Pós tech Fiap",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt">
       <body>

@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 
-export default function Card({ id, classNumber, teacher, classTitle, classImage, activeCard, setActiveCard  }: any) {
+export default function Card({ id, classNumber, teacher, classTitle, classImage, activeCard, setActiveCard, link  }: any) {
 
 
  const handleActiveCard = () => {
@@ -12,7 +12,7 @@ export default function Card({ id, classNumber, teacher, classTitle, classImage,
       <div className={styles.overlay}>
         <span className={styles.classNumber}>{classNumber} - {teacher}</span>
         <p className={styles.classTitle}>{classTitle}</p>
-        <a href="#" className={styles.cardButton}>Ver conteúdo</a>
+        <a href={link} className={styles.cardButton}>Ver conteúdo</a>
       </div>
     </div>
   );

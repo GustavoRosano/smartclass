@@ -2,10 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--newclass-page-padding-desktop);
+  padding: 150px 130px;
+  width: 100vw;
 
   @media screen and (max-width: 768px) {
-    padding: var(--newclass-page-padding-mobile);
+    padding: 64px 24px;
   }
 
   .container {
@@ -13,7 +14,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: var(--newclass-page-container-width);
+    width: 100%;
     max-width: var(--container-width);
 
     .imageContainer {
