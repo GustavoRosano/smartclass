@@ -1,5 +1,3 @@
-// TODO: mudar para variaveis
-
 .card {
   display: flex;
   background-size: cover;
@@ -24,7 +22,7 @@
     align-items: flex-start;
     padding: 35px 27px;
     gap: 5px;
-    background-color: #000000a1;
+    background-color: var(--overlay-color);
     border-radius: 40px;
     width: 100%;
 
@@ -54,7 +52,7 @@
         .classNumber {
           font-size: 16px;
           font-weight: 300;
-          color: #FFF;
+          color: var(--white-label-color);
 
           @media screen and (max-width: 768px) {
             font-size: 12px;
@@ -64,7 +62,7 @@
         .classTitle {
           font-size: 30px;
           font-weight: bold;
-          color: #FFF;
+          color: var(--white-label-color);
           display: block;
           white-space: nowrap;
           overflow: hidden;
@@ -94,7 +92,7 @@
           background-color: transparent;
 
           svg {
-            color: #FFF;
+            color: var(--white-label-color);
             width: 35px;
             height: 35px;
 

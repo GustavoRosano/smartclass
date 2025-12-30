@@ -1,5 +1,3 @@
-// TODO: Trocar por variáveis
-
 .newClassPage {
   display: flex;
   justify-content: center;
@@ -66,33 +64,33 @@
 
         :global(.MuiOutlinedInput-root) {
           border-radius: 12px;
-          color: #37ADA5;
+          color: var(--primary-color);
 
           :global(fieldset) {
-            border-color: #37ADA5;
+            border-color: var(--primary-color);
           }
 
           &:hover :global(fieldset) {
-            border-color: #37ADA5;
+            border-color: var(--primary-color);
           }
 
           &.Mui-focused :global(fieldset) {
-            border-color: #37ADA5;
+            border-color: var(--primary-color);
             border-width: 2px;
           }
         }
 
         :global(.MuiInputBase-input) {
-          color: #FFF;
+          color: var(--white-label-color);
           padding: 14px;
           font-size: 15px;
         }
 
         :global(.MuiInputLabel-root) {
-          color: #37ADA5;
+          color: var(--primary-color);
 
           &.Mui-focused {
-            color: #37ADA5;
+            color: var(--primary-color);
           }
         }
 
@@ -132,26 +130,26 @@
         display: block;
         margin-bottom: 8px;
         font-weight: 500;
-        color: #37ADA5;
+        color: var(--primary-color);
       }
 
       :global(.ql-toolbar) {
         border-radius: 12px 12px 0 0;
-        border: 1px solid #37ADA5;
+        border: 1px solid var(--primary-color);
         background-color: transparent;
       }
 
       :global(.ql-container) {
         min-height: 380px;
         border-radius: 0 0 12px 12px;
-        border: 1px solid #37ADA5;
+        border: 1px solid var(--primary-color);
         border-top: none;
         font-size: 16px;
       }
 
       :global(.ql-editor) {
         min-height: 320px;
-        color: #FFF;
+        color: var(--white-label-color);
         padding: 16px;
         line-height: 1.6;
 
@@ -170,13 +168,13 @@
         }
 
         a {
-          color: #37ADA5;
+          color: var(--primary-color);
           text-decoration: underline;
         }
       }
 
       :global(.ql-container.ql-snow:focus-within) {
-        border-color: #37ADA5;
+        border-color: var(--primary-color);
       }
     }
   }

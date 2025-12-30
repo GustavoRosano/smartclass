@@ -5,11 +5,11 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: var(--student-page-height-desktop);
 
   @media screen and (max-width: 768px) {
-    height: 100%;
-    min-height: 100vh;
+    height: var(--student-page-height-mobile);
+    min-height: var(--student-page-min-height-mobile);
   }
 
   .overlay {
@@ -17,15 +17,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 90px 130px;
-    background-color: #000000d2;
-    width: 100%;
-    height: 100vh;
+    padding: var(--student-page-overlay-padding-desktop);
+    background-color: var(--overlay-color);
+    width: var(--student-page-overlay-width);
+    height: var(--student-page-overlay-height-desktop);
 
     @media screen and (max-width: 768px) {
-      padding: 40px 20px;
-      height: 100%;
-      min-height: 100vh;
+      padding: var(--student-page-overlay-padding-mobile);
+      height: var(--student-page-overlay-height-mobile);
+      min-height: var(--student-page-overlay-min-height-mobile);
       justify-content: flex-start;
     }
 
@@ -34,12 +34,12 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 100%;
+      width: var(--student-page-container-width);
       max-width: var(--container-width);
-      gap: 60px;
+      gap: var(--student-page-container-gap-desktop);
 
       @media screen and (max-width: 768px) {
-        gap: 30px;
+        gap: var(--student-page-container-gap-mobile);
       }
 
       .classTitle {
@@ -54,21 +54,20 @@
         }
       }
 
-      // TODO: mudar para variaveis
       .cards {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 30px;
+        gap: var(--student-page-cards-gap-desktop);
 
         @media screen and (max-width: 768px) {
           flex-direction: column;
-          gap: 20px;
+          gap: var(--student-page-cards-gap-mobile);
           overflow-x: auto;
-          height: 100%;
-          max-height: 60vh;
-          padding-top: 135px;
+          height: var(--student-page-cards-height-mobile);
+          max-height: var(--student-page-cards-max-height-mobile);
+          padding-top: var(--student-page-cards-padding-top-mobile);
         }
       }
     }

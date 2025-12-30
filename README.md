@@ -117,8 +117,16 @@ Lista de usuários para que seja possível testar o sistema:
 - **Email:** aluno@teste.com
 - **Senha:** 123456
 
-> Usuário 2 (Professor):
-- **Email:** professor@teste.com
+> Usuário 2 (Professor 1):
+- **Email:** professor1@teste.com
+- **Senha:** 123456
+
+> Usuário 2 (Professor 2):
+- **Email:** professor2@teste.com
+- **Senha:** 123456
+
+> Usuário 2 (Professor 3):
+- **Email:** professor3@teste.com
 - **Senha:** 123456
 
 ## 📝 6. Considerações Finais

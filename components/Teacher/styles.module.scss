@@ -17,7 +17,7 @@
     max-width: var(--container-width);
 
     .classTitle {
-      color: #37ADA5;
+      color: var(--primary-color);
       font-size: 64px;
       font-weight: 700;
       text-align: center;
@@ -61,7 +61,7 @@
           }
 
           :global(input) {
-            color: #fff;
+            color: var(--white-label-color);
             padding: 16px 20px;
           }
 
@@ -78,15 +78,15 @@
           }
 
           :global(svg) {
-            color: #fff;
+            color: var(--white-label-color);
           }
         }
       }
 
       .newClasseButton {
-        background-color: #37ADA5;
+        background-color: var(--primary-color);
         border-radius: 20px;
-        color: #FFF;
+        color: var(--white-label-color);
         font-size: 20px;
         font-weight: 700;
         display: flex;
