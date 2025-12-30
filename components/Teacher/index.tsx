@@ -1,5 +1,6 @@
 import styles from './styles.module.scss';
-import { Button } from '@mui/material';
+import { Button, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 import ClassCard from './ClassCard';
 import { classesMock } from "@/app/mocks/classes";
@@ -10,7 +11,20 @@ export default function Teacher() {
     <div className={styles.teacherPage}>
       <div className={styles.container}>
         <h1 className={styles.classTitle}>UI/UX para desenvolvedores</h1>
-        <Button variant='contained' className={styles.newClasseButton}>Nova Aula</Button>
+        <div className={styles.actions}>
+          <TextField
+            variant="outlined"
+            className={styles.searchInput}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button variant='contained' className={styles.newClasseButton}>Nova Aula</Button>
+        </div>
 
         <div className={styles.cards}>
           {classesMock.map((classe, index) => (

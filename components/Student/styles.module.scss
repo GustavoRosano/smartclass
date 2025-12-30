@@ -46,6 +46,7 @@
         color: var(--white-label-color);
         font-size: var(--font-h1-desktop);
         font-weight: bold;
+        text-shadow: 1px 0px 10px rgba(55,173,165,0.71);
 
         @media screen and (max-width: 768px) {
           font-size: var(--font-h1-mobile);
