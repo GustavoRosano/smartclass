@@ -1,5 +1,6 @@
 export type ClassContent = {
   id: string;
+  matter: string;
   classNumber: string;
   teacher: string;
   title: string;

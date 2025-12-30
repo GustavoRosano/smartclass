@@ -4,6 +4,8 @@ import React from "react";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import Login from "./Login";
 
+import Header from "@/components/Header";
+
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
 
@@ -11,7 +13,12 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     return <Login />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {

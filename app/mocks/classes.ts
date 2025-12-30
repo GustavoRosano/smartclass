@@ -3,6 +3,7 @@ import { ClassContent } from "../types/ClassContent";
 export const classesMock: ClassContent[] = [
   {
     id: "12354",
+    matter: "UI/UX para desenvolvedores",
     classNumber: "Aula 1",
     teacher: "Gustavo",
     title: "Introdução ao UX",
@@ -17,6 +18,7 @@ export const classesMock: ClassContent[] = [
   },
   {
     id: "012365",
+    matter: "UI/UX para desenvolvedores",
     classNumber: "Aula 2",
     teacher: "Gustavo",
     title: "Pesquisa com Usuários",
@@ -31,6 +33,7 @@ export const classesMock: ClassContent[] = [
   },
   {
     id: "123146",
+    matter: "UI/UX para desenvolvedores",
     classNumber: "Aula 3",
     teacher: "Gustavo",
     title: "Arquitetura da Informação",
@@ -45,6 +48,7 @@ export const classesMock: ClassContent[] = [
   },
   {
     id: "5461423",
+    matter: "UI/UX para desenvolvedores",
     classNumber: "Aula 4",
     teacher: "Gustavo",
     title: "Wireframes",
@@ -59,9 +63,70 @@ export const classesMock: ClassContent[] = [
   },
   {
     id: "214654",
+    matter: "UI/UX para desenvolvedores",
     classNumber: "Aula 5",
     teacher: "Gustavo",
     title: "User Flow",
+    image: "/classes/banner-aula-1.png",
+    content: [
+      { type: "title", value: "Introdução ao User Flow" },
+      { type: "text", value: "User Flow representa o caminho do usuário." },
+      { type: "subtitle", value: "Benefícios" },
+      { type: "text", value: "Ajuda a mapear decisões e pontos de fricção." },
+      { type: "link", value: "https://www.figma.com" },
+    ],
+  },
+  {
+    id: "564231",
+    matter: "React",
+    classNumber: "Aula 1",
+    teacher: "Ricardo",
+    title: "User",
+    image: "/classes/banner-aula-1.png",
+    content: [
+      { type: "title", value: "Introdução ao User Flow" },
+      { type: "text", value: "User Flow representa o caminho do usuário." },
+      { type: "subtitle", value: "Benefícios" },
+      { type: "text", value: "Ajuda a mapear decisões e pontos de fricção." },
+      { type: "link", value: "https://www.figma.com" },
+    ],
+  },
+  {
+    id: "5643251",
+    matter: "React",
+    classNumber: "Aula 2",
+    teacher: "Ricardo",
+    title: "Flow",
+    image: "/classes/banner-aula-1.png",
+    content: [
+      { type: "title", value: "Introdução ao User Flow" },
+      { type: "text", value: "User Flow representa o caminho do usuário." },
+      { type: "subtitle", value: "Benefícios" },
+      { type: "text", value: "Ajuda a mapear decisões e pontos de fricção." },
+      { type: "link", value: "https://www.figma.com" },
+    ],
+  },
+  {
+    id: "5643251",
+    matter: "React",
+    classNumber: "Aula 3",
+    teacher: "Ricardo",
+    title: "Flow",
+    image: "/classes/banner-aula-1.png",
+    content: [
+      { type: "title", value: "Introdução ao User Flow" },
+      { type: "text", value: "User Flow representa o caminho do usuário." },
+      { type: "subtitle", value: "Benefícios" },
+      { type: "text", value: "Ajuda a mapear decisões e pontos de fricção." },
+      { type: "link", value: "https://www.figma.com" },
+    ],
+  },
+  {
+    id: "75634231",
+    matter: "Next",
+    classNumber: "Aula 1",
+    teacher: "Bruno",
+    title: "Teste",
     image: "/classes/banner-aula-1.png",
     content: [
       { type: "title", value: "Introdução ao User Flow" },

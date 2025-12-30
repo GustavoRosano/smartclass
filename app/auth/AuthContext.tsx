@@ -4,7 +4,9 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 type User = {
   id: string;
   email: string;
+  name: string;
   role: "professor" | "aluno";
+  matter?: string
 };
 
 type AuthContextType = {
@@ -27,14 +29,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (senha !== "123456") return false;
 
     const mockUsers: Record<string, User> = {
-      "professor@teste.com": {
+      "professor1@teste.com": {
         id: "1",
-        email: "professor@teste.com",
+        email: "professor1@teste.com",
+        name: "Gustavo",
         role: "professor",
+        matter: "UI/UX para desenvolvedores",
+      },
+      "professor2@teste.com": {
+        id: "2",
+        email: "professor2@teste.com",
+        name: "Ricardo",
+        role: "professor",
+        matter: "React",
+      },
+      "professor3@teste.com": {
+        id: "3",
+        email: "professor3@teste.com",
+        name: "Bruno",
+        role: "professor",
+        matter: "Next",
       },
       "aluno@teste.com": {
-        id: "2",
+        id: "4",
         email: "aluno@teste.com",
+        name: "Gustavo",
         role: "aluno",
       },
     };

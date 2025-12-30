@@ -1,17 +1,26 @@
 import styles from './styles.module.scss';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button } from '@mui/material';
+import { useRouter } from "next/navigation";
 
-export default function ClassCard({ id, classNumber, teacher, classTitle, classImage, setActiveCard, link }: any) {
+type Props = {
+  id: string;
+  classNumber: string;
+  teacher: string;
+  classTitle: string;
+  classImage: string;
+  link: string;
+};
 
+export default function ClassCard({ id, classNumber, teacher, classTitle, classImage, link }: Props) {
+  const router = useRouter();
 
-  const handleActiveCard = () => {
-    setActiveCard(id);
-  }
+  const handleNavigate = () => {
+    router.push(link);
+  };
 
   return (
-    <div key={id} onClick={handleActiveCard} className={`${styles.card}`} style={{ backgroundImage: `url(${classImage})` }}>
+    <div key={id} className={`${styles.card}`} style={{ backgroundImage: `url(${classImage})` }}>
       <div className={styles.overlay}>
         <div className={styles.cardContainer}>
           <div className={styles.textContainer}>
@@ -20,7 +29,7 @@ export default function ClassCard({ id, classNumber, teacher, classTitle, classI
           </div>
           <div className={styles.actions}>
             <button className={styles.actionButton}><DeleteIcon /></button>
-            <button className={styles.actionButton}><EditIcon /></button>
+            <button className={styles.actionButton} onClick={handleNavigate}><EditIcon /></button>
           </div>
         </div>
       </div>

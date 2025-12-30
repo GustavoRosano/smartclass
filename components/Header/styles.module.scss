@@ -32,6 +32,7 @@
 
     .menuLinks {
       display: flex;
+      align-items: center;
       gap: 30px;
 
       .menuLink {
@@ -39,6 +40,10 @@
         font-size: 16px;
         font-weight: 700;
         text-transform: uppercase;
+      }
+
+      .logoutButton {
+        background-color: var(--danger-label-color);
       }
     }
   }
