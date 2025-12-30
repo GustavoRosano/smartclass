@@ -16,9 +16,9 @@ export default function Header() {
             <></>
           ) : (
             <>
-              <a href="#" className={styles.menuLink}>UX/UI</a>
-              <a href="#" className={styles.menuLink}>React</a>
-              <a href="#" className={styles.menuLink}>Next</a>
+              <a href="/matter/ui-ux" className={styles.menuLink}>UX/UI</a>
+              <a href="/matter/react" className={styles.menuLink}>React</a>
+              <a href="/matter/next" className={styles.menuLink}>Next</a>
             </>
           )}
           <Button onClick={logout} variant="contained" className={styles.logoutButton}>

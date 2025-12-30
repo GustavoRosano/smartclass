@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import Login from "./Login";
 
 import Header from "@/components/Header";
+import HeaderMobile from "@/components/Header/Mobile";
 
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -17,6 +18,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     <>
       <Header />
       {children}
+      <HeaderMobile />
     </>
   );
 }

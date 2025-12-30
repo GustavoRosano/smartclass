@@ -47,7 +47,7 @@
 
   /* General Content Page */
   --general-content-page-padding-desktop: 20px 130px;
-  --general-content-page-padding-mobile: 40px 20px;
+  --general-content-page-padding-mobile: 40px 20px 50px;
   --general-content-page-height: 100%;
   --general-content-page-min-height: 100vh;
   --general-content-page-container-width: 100%;
