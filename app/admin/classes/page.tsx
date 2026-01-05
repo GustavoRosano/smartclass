@@ -9,7 +9,6 @@ import {
   Card,
   CardContent,
   CardActions,
-  Grid,
   Chip,
   Alert,
   CircularProgress,
@@ -151,15 +150,24 @@ export default function ClassesListPage() {
           </Button>
         </Paper>
       ) : (
-        <Grid container spacing={3}>
+        <Box 
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(3, 1fr)'
+            },
+            gap: 3
+          }}
+        >
           {classes.map((classData) => {
             const stats = ClassService.getClassStats(classData);
             
             return (
-              <Grid item xs={12} sm={6} md={4} key={classData._id}>
-                <Card className={styles.classCard}>
-                  <CardContent>
-                    <Typography variant="h6" component="h2" className={styles.className}>
+              <Card key={classData._id} className={styles.classCard}>
+                <CardContent>
+                  <Typography variant="h6" component="h2" className={styles.className}>
                       {classData.name}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" className={styles.description}>
@@ -216,10 +224,9 @@ export default function ClassesListPage() {
                     </Button>
                   </CardActions>
                 </Card>
-              </Grid>
             );
           })}
-        </Grid>
+        </Box>
       )}
 
       {/* Delete Confirmation Dialog */}

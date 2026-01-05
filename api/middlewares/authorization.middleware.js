@@ -18,7 +18,9 @@ function authorize(allowedRoles) {
   return (req, res, next) => {
     // Verificar se usuário está autenticado
     if (!req.user) {
+      console.log('[RBAC] ❌ Tentativa de acesso sem autenticação');
       return res.status(401).json({
+        success: false,
         error: 'Não autenticado',
         message: 'Autenticação necessária para acessar este recurso'
       });
@@ -28,12 +30,16 @@ function authorize(allowedRoles) {
 
     // Verificar se o role do usuário está na lista de permitidos
     if (!allowedRoles.includes(userRole)) {
+      console.log(`[RBAC] ❌ Acesso negado: ${req.user.email} (${userRole}) tentou acessar recurso que requer ${allowedRoles.join(' ou ')}`);
+      
       return res.status(403).json({
+        success: false,
         error: 'Acesso negado',
-        message: `Permissão insuficiente. Roles permitidos: ${allowedRoles.join(', ')}`
+        message: `Permissão insuficiente. Role necessário: ${allowedRoles.join(' ou ')}. Seu role: ${userRole}`
       });
     }
 
+    console.log(`[RBAC] ✅ Acesso permitido: ${req.user.email} (${userRole})`);
     next();
   };
 }
@@ -53,6 +59,13 @@ function authorizeTeacher(req, res, next) {
 }
 
 /**
+ * Middleware para Aluno apenas
+ */
+function authorizeStudent(req, res, next) {
+  return authorize(['aluno'])(req, res, next);
+}
+
+/**
  * Middleware para verificar se o usuário é o dono do recurso
  * ou é admin
  * 
@@ -65,6 +78,7 @@ function authorizeOwnerOrAdmin(resourceUserIdField = 'userId') {
   return async (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
+        success: false,
         error: 'Não autenticado',
         message: 'Autenticação necessária'
       });
@@ -72,6 +86,7 @@ function authorizeOwnerOrAdmin(resourceUserIdField = 'userId') {
 
     // Admin sempre tem permissão
     if (req.user.role === 'admin') {
+      console.log(`[RBAC] ✅ Admin bypass: ${req.user.email}`);
       return next();
     }
 
@@ -81,13 +96,19 @@ function authorizeOwnerOrAdmin(resourceUserIdField = 'userId') {
                           req.params[resourceUserIdField] ||
                           req.query[resourceUserIdField];
 
-    if (resourceUserId && resourceUserId === req.user._id) {
+    const userId = req.user._id || req.user.id;
+
+    if (resourceUserId && resourceUserId === userId) {
+      console.log(`[RBAC] ✅ Owner access: ${req.user.email}`);
       return next();
     }
 
+    console.log(`[RBAC] ❌ Acesso negado: ${req.user.email} tentou acessar recurso de outro usuário`);
+
     return res.status(403).json({
+      success: false,
       error: 'Acesso negado',
-      message: 'Você não tem permissão para acessar este recurso'
+      message: 'Você só pode acessar seus próprios recursos'
     });
   };
 }
@@ -125,6 +146,7 @@ module.exports = {
   authorize,
   authorizeAdmin,
   authorizeTeacher,
+  authorizeStudent,
   authorizeOwnerOrAdmin,
   authorizeTeacherClass
 };

@@ -417,6 +417,131 @@ O Docker Compose inclui healthcheck automático:
 
 ---
 
+## � Configuração do Administrador
+
+### ⚡ Criação do Usuário Admin (Seed)
+
+O sistema inclui um **script de seed** para criar o usuário administrador inicial:
+
+```bash
+# Executar na raiz do projeto
+npm run create-admin
+```
+
+**O que o script faz:**
+1. ✅ Verifica se já existe um admin no sistema
+2. ✅ Cria o usuário admin@smartclass.com com senha criptografada (bcrypt)
+3. ✅ Define role='admin' e isActive=true
+4. ✅ Exibe as credenciais de acesso
+
+**Resultado esperado:**
+```
+🚀 Criando usuário administrador...
+✅ Administrador criado com sucesso!
+
+📧 Email: admin@smartclass.com
+🔒 Senha: admin123
+```
+
+⚠️ **Importante:** Execute este comando **após iniciar o Docker** e antes de testar o sistema.
+
+### 🔐 Verificar se Admin Existe
+
+Endpoint público para verificar status do admin:
+
+```bash
+# Verificar se admin existe
+curl http://localhost:3002/api/admin/health
+
+# Resposta se admin NÃO existe:
+{
+  "exists": false,
+  "count": 0,
+  "message": "Nenhum administrador encontrado. Execute: npm run create-admin"
+}
+
+# Resposta se admin EXISTE:
+{
+  "exists": true,
+  "count": 1,
+  "message": "Sistema configurado corretamente"
+}
+```
+
+### 📊 Estatísticas do Sistema (Admin Only)
+
+Endpoint protegido que retorna estatísticas por role:
+
+```bash
+# Requer header: x-user-id com ID de um admin
+curl -H "x-user-id: <ADMIN_ID>" http://localhost:3002/api/admin/stats
+
+# Resposta:
+{
+  "totalUsers": 15,
+  "professors": 5,
+  "students": 9,
+  "admins": 1
+}
+```
+
+### 🛡️ RBAC Aprimorado
+
+O sistema agora possui **logging detalhado** para todas as ações de autorização:
+
+**Console Output (API):**
+```
+✅ Acesso permitido ao Admin - Role atual: admin
+✅ Admin bypass - userId=123 é admin
+❌ Acesso negado - Role atual: professor, requerido: admin
+```
+
+**Middlewares disponíveis:**
+- `authorize('admin')` - Acesso exclusivo para Admin
+- `authorize('professor')` - Acesso para Professores e Admins
+- `authorize('aluno')` - Acesso para Alunos e Admins
+- `authorizeAdmin()` - Alias para authorize('admin')
+- `authorizeProfessor()` - Alias para authorize('professor')
+- `authorizeStudent()` - Alias para authorize('aluno')
+- `authorizeOwnerOrAdmin(resourceType)` - Dono do recurso OU Admin
+
+### 🎯 Novos Endpoints Admin
+
+#### 1. Listar Professores (Admin Only)
+```bash
+GET /api/teachers
+Headers: x-user-id (Admin)
+
+Resposta:
+[
+  {
+    "id": "1",
+    "name": "Prof. João Silva",
+    "email": "joao@smartclass.com",
+    "role": "professor",
+    "isActive": true
+  }
+]
+```
+
+#### 2. Detalhes de um Professor (Admin Only)
+```bash
+GET /api/teachers/:id
+Headers: x-user-id (Admin)
+
+Resposta:
+{
+  "id": "1",
+  "name": "Prof. João Silva",
+  "email": "joao@smartclass.com",
+  "role": "professor",
+  "isActive": true,
+  "createdAt": "2024-01-15T10:30:00.000Z"
+}
+```
+
+---
+
 ## 👥 Usuários de Teste
 
 ### 🔑 Administrador
@@ -429,9 +554,10 @@ O Docker Compose inclui healthcheck automático:
 **Permissões:**
 - ✅ Acesso total ao sistema
 - ✅ Gerencia TODOS os posts de TODOS os professores
-- ✅ Gerencia todos os usuários
-- ✅ Visualiza todas as estatísticas
-- ✅ Acesso exclusivo a `/admin/users`
+- ✅ Gerencia todos os usuários (exceto visualizar outros admins)
+- ✅ Visualiza todas as estatísticas do sistema
+- ✅ Acesso exclusivo a `/admin/users`, `/admin/stats`, `/teachers`
+- ✅ Pode listar e gerenciar todos os professores
 
 ### 🎓 Aluno
 
@@ -818,6 +944,124 @@ npm run test:coverage  # Gera relatório de cobertura
 npm test       # Executa todos os testes
 npm run test:watch  # Modo watch (desenvolvimento)
 npm run test:coverage  # Gera relatório de cobertura
+```
+
+### ✅ Checklist de Testes de Permissões Admin
+
+Após criar o admin com `npm run create-admin`, execute os seguintes testes:
+
+#### 1. 🔐 Teste de Autenticação
+```bash
+# 1. Acesse http://localhost:3000/Login
+# 2. Login com: admin@smartclass.com / admin123
+# 3. Esperado: Redirecionamento para /admin/users
+```
+
+#### 2. 🎯 Teste de Menu (Header)
+```bash
+# Após login, verificar menu superior:
+# Admin deve ver: Posts | Usuários | Aulas
+# Professor vê: Meus Posts | Minhas Aulas | Alunos  
+# Aluno vê: UI/UX | React | Next
+```
+
+#### 3. 👥 Teste de Listagem de Usuários
+```bash
+# 1. Acesse /admin/users
+# 2. Esperado:
+#    - Ver estatísticas no topo (Total, Professores, Alunos)
+#    - Lista NÃO deve incluir outros admins
+#    - Alert explicando: "Administradores não aparecem nesta listagem"
+#    - Chips com role (Professor/Aluno) e status (Ativo/Inativo)
+```
+
+#### 4. 🔒 Teste de Acesso Negado (Professor)
+```bash
+# 1. Logout do Admin
+# 2. Login com professor (ex: professor@smartclass.com / 123456)
+# 3. Tentar acessar manualmente: http://localhost:3000/admin/users
+# 4. Esperado: Redirecionamento ou mensagem de acesso negado
+```
+
+#### 5. 🌐 Teste de Endpoints API
+
+**Verificar se admin existe:**
+```bash
+curl http://localhost:3002/api/admin/health
+
+# Esperado:
+# {"exists": true, "count": 1, "message": "Sistema configurado corretamente"}
+```
+
+**Estatísticas do sistema (requer x-user-id do admin):**
+```bash
+# Primeiro, obter ID do admin via navegador (inspecionar localStorage ou network)
+curl -H "x-user-id: <ADMIN_ID>" http://localhost:3002/api/admin/stats
+
+# Esperado:
+# {"totalUsers": X, "professors": Y, "students": Z, "admins": 1}
+```
+
+**Listar professores (Admin only):**
+```bash
+curl -H "x-user-id: <ADMIN_ID>" http://localhost:3002/api/teachers
+
+# Esperado: Array com apenas usuários role='professor'
+```
+
+**Tentar acesso com professor (deve falhar):**
+```bash
+curl -H "x-user-id: <PROFESSOR_ID>" http://localhost:3002/api/teachers
+
+# Esperado: 403 Forbidden
+# {"message": "Acesso negado - Role atual: professor, requerido: admin"}
+```
+
+#### 6. 📊 Verificar Logs no Console API
+```bash
+# No terminal onde está rodando a API (docker logs smartclass-api)
+# Buscar por mensagens de RBAC:
+# ✅ Acesso permitido ao Admin - Role atual: admin
+# ✅ Admin bypass - userId=X é admin
+# ❌ Acesso negado - Role atual: professor, requerido: admin
+```
+
+#### 7. 🗑️ Teste de Delete com Dialog
+```bash
+# 1. Na página /admin/users, clicar no botão Delete de algum usuário
+# 2. Esperado: Dialog de confirmação aparecer
+# 3. Cancelar: Nada deve acontecer
+# 4. Confirmar: Usuário deve ser removido (soft delete)
+```
+
+### 🐛 Troubleshooting de Testes
+
+**Problema:** Admin não consegue logar
+```bash
+# Solução: Verificar se admin foi criado
+curl http://localhost:3002/api/admin/health
+
+# Se "exists": false, executar:
+npm run create-admin
+```
+
+**Problema:** API retorna 401 (Unauthorized)
+```bash
+# Solução: Verificar header x-user-id está sendo enviado
+# No navegador: Abrir DevTools > Network > Verificar request headers
+```
+
+**Problema:** Professor vê tela de admin
+```bash
+# Solução: Limpar localStorage e fazer novo login
+# No navegador: F12 > Application > Local Storage > Clear All
+```
+
+**Problema:** Listagem mostra admins
+```bash
+# Solução: Verificar se código de filtro está aplicado
+# Arquivo: app/admin/users/page.tsx
+# Linha 43: const filteredUsers = response.data.filter(u => u.role !== 'admin');
 ```
 
 ### 🧩 Testes Implementados

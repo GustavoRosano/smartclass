@@ -10,13 +10,22 @@ const getPosts = async(req, res) => {
         const response = await jsonServer.get('/posts');
         let posts  = response.data;
 
+        // Mapear _id para id (compatibilidade MongoDB)
+        posts = posts.map(post => {
+            const { _id, __v, ...rest } = post;
+            return {
+                ...rest,
+                id: _id || post.id
+            };
+        });
+
         if(req.query.excluded !== undefined){
             posts = posts.filter(p => p.excluded === isExcludedRequested);
         }
 
         // Filtrar por userId se fornecido (para professores verem apenas seus posts)
         if(userId){
-            posts = posts.filter(p => p.userId === userId);
+            posts = posts.filter(p => p.userId === userId || p.userId === String(userId));
         }
 
         return res.status(200).json({posts});
@@ -49,7 +58,17 @@ const getPostId = async(req, res) => {
     try{
 
         const response = await jsonServer.get(`/posts/${id}`);
-        const post = response.data;
+        let post = response.data;
+        
+        // Mapear _id para id (compatibilidade MongoDB)
+        if (post._id && !post.id) {
+            const { _id, __v, ...rest } = post;
+            post = {
+                ...rest,
+                id: _id
+            };
+        }
+        
         return res.status(200).json(post);
 
     }catch(error){

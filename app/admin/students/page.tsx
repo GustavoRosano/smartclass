@@ -20,12 +20,15 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Tooltip,
+  Skeleton
 } from '@mui/material';
 import { Add, Edit, Delete, Visibility } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/auth/AuthContext';
 import StudentService, { Student } from '@/app/services/student.service';
+import EmptyState from '@/app/components/UI/EmptyState';
 import styles from './styles.module.scss';
 
 export default function StudentsListPage() {
@@ -54,8 +57,8 @@ export default function StudentsListPage() {
     
     const result = await StudentService.listStudents();
     
-    if (result.success && result.students) {
-      setStudents(result.students);
+    if (result.success) {
+      setStudents(result.students || []);
     } else {
       setError(result.error || 'Erro ao carregar alunos');
     }
@@ -103,12 +106,59 @@ export default function StudentsListPage() {
     setStudentToDelete(null);
   }
 
+  // Loading State com Skeleton
   if (loading) {
     return (
       <Box className={styles.studentsPage}>
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-          <CircularProgress />
+        <Box className={styles.header}>
+          <Skeleton variant="text" width={250} height={50} />
+          <Skeleton variant="rectangular" width={150} height={40} />
         </Box>
+
+        <TableContainer component={Paper} className={styles.tableContainer}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell><strong>Nome</strong></TableCell>
+                <TableCell><strong>Email</strong></TableCell>
+                <TableCell><strong>Telefone</strong></TableCell>
+                <TableCell><strong>Status</strong></TableCell>
+                <TableCell align="right"><strong>Ações</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {[1, 2, 3].map((n) => (
+                <TableRow key={n}>
+                  <TableCell><Skeleton /></TableCell>
+                  <TableCell><Skeleton /></TableCell>
+                  <TableCell><Skeleton /></TableCell>
+                  <TableCell><Skeleton width={80} /></TableCell>
+                  <TableCell><Skeleton /></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    );
+  }
+
+  // Empty State (lista vazia, mas SEM erro)
+  if (!error && students.length === 0) {
+    return (
+      <Box className={styles.studentsPage}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.title}>
+            Gerenciar Alunos
+          </Typography>
+        </Box>
+
+        <EmptyState
+          title="Nenhum aluno cadastrado"
+          message="Comece cadastrando o primeiro aluno da plataforma"
+          actionLabel="Cadastrar Novo Aluno"
+          onAction={handleCreateNew}
+        />
       </Box>
     );
   }
@@ -129,6 +179,7 @@ export default function StudentsListPage() {
         </Button>
       </Box>
 
+      {/* Alert fixo no topo (não sobreposto) */}
       {error && (
         <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
           {error}
@@ -147,68 +198,68 @@ export default function StudentsListPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {students.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} align="center">
-                  <Typography variant="body2" color="textSecondary" sx={{ py: 4 }}>
-                    Nenhum aluno cadastrado
-                  </Typography>
+            {students.map((student) => (
+              <TableRow key={student._id} hover>
+                <TableCell>{student.nome}</TableCell>
+                <TableCell>{student.email}</TableCell>
+                <TableCell>{student.telefone || '—'}</TableCell>
+                <TableCell>
+                  <Chip
+                    label={student.isActive ? 'Ativo' : 'Inativo'}
+                    color={student.isActive ? 'success' : 'default'}
+                    size="small"
+                  />
                 </TableCell>
-              </TableRow>
-            ) : (
-              students.map((student) => (
-                <TableRow key={student._id} hover>
-                  <TableCell>{student.nome}</TableCell>
-                  <TableCell>{student.email}</TableCell>
-                  <TableCell>{student.telefone || '-'}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={student.isActive ? 'Ativo' : 'Inativo'}
-                      color={student.isActive ? 'success' : 'default'}
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell align="right">
+                <TableCell align="right">
+                  <Tooltip title="Visualizar">
                     <IconButton
                       size="small"
                       onClick={() => handleView(student._id)}
-                      title="Visualizar"
+                      color="primary"
                     >
                       <Visibility fontSize="small" />
                     </IconButton>
-                    {user?.role === 'admin' && (
-                      <>
+                  </Tooltip>
+
+                  {user?.role === 'admin' && (
+                    <>
+                      <Tooltip title="Editar">
                         <IconButton
                           size="small"
                           onClick={() => handleEdit(student._id)}
-                          title="Editar"
+                          color="primary"
                         >
                           <Edit fontSize="small" />
                         </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title="Remover">
                         <IconButton
                           size="small"
                           onClick={() => handleDeleteClick(student)}
-                          title="Remover"
                           color="error"
                         >
                           <Delete fontSize="small" />
                         </IconButton>
-                      </>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
+                      </Tooltip>
+                    </>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
-        <DialogTitle>Confirmar Remoção</DialogTitle>
+        <DialogTitle>⚠️ Confirmar Remoção</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Tem certeza que deseja remover o aluno <strong>{studentToDelete?.nome}</strong>?
+            <br /><br />
+            <strong>Email:</strong> {studentToDelete?.email}<br />
+            <br />
             Esta ação não pode ser desfeita.
           </DialogContentText>
         </DialogContent>
@@ -219,10 +270,11 @@ export default function StudentsListPage() {
           <Button
             onClick={handleDeleteConfirm}
             color="error"
+            variant="contained"
             disabled={deleting}
             startIcon={deleting ? <CircularProgress size={20} /> : null}
           >
-            Remover
+            {deleting ? 'Removendo...' : 'Confirmar Remoção'}
           </Button>
         </DialogActions>
       </Dialog>

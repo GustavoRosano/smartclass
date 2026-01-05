@@ -22,6 +22,8 @@ const { postPosts,
 const authController = require('./controllers/auth.controller');
 const studentController = require('./controllers/student.controller');
 const classController = require('./controllers/class.controller');
+const teacherController = require('./controllers/teacher.controller');
+const adminController = require('./controllers/admin.controller');
 
 // Middleware imports
 const { authenticate, optionalAuth } = require('./middlewares/auth.middleware');
@@ -83,6 +85,21 @@ routes.put('/classes/:id/reject/:studentId', authenticate, authorizeTeacher, cla
 
 // Remover aluno da classe
 routes.delete('/classes/:id/students/:studentId', authenticate, authorizeTeacher, classController.removeStudent);
+
+// ============================================================================
+// TEACHER ROUTES (Gerenciamento de Professores - Admin only)
+// ============================================================================
+routes.get('/teachers', authenticate, authorizeAdmin, teacherController.listTeachers);
+routes.get('/teachers/:id', authenticate, authorizeAdmin, teacherController.getTeacher);
+
+// ============================================================================
+// ADMIN ROUTES (Utilitários Administrativos)
+// ============================================================================
+// Health check - público (não requer autenticação)
+routes.get('/admin/health', adminController.checkAdminExists);
+
+// Estatísticas do sistema - Admin only
+routes.get('/admin/stats', authenticate, authorizeAdmin, adminController.getSystemStats);
 
 // ============================================================================
 // LEGACY USER ROUTES (Manter para compatibilidade com frontend existente)
