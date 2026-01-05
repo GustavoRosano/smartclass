@@ -1,44 +1,75 @@
 .header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 130px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
+  position: fixed;           
   width: 100%;
-  height: 75px;
-  background-color: rgba(217, 217, 217, 0.03);
-  -webkit-box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+  padding: 15px 0;
+}
 
-  @media screen and (max-width: 768px) {
-    display: none;
+.container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 40px;
+  position: relative; 
+}
+
+.logo {
+  height: 50px; 
+  width: auto;
+  z-index: 10; 
+}
+
+.searchBox {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 5px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  input {
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    &::placeholder { color: #ccc; }
   }
 
-  .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: var(--container-width);
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+}
 
-    .logo {
-      width: 50px;
-      height: 32px;
-    }
+.menuLinks {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 
-    .menuLinks {
-      display: flex;
-      gap: 30px;
+  .menuLink {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    
+    &:hover { color: #00bcd4; }
+  }
 
-      .menuLink {
-        color: #FFF;
-        font-size: 16px;
-        font-weight: 700;
-        text-transform: uppercase;
-      }
-    }
+  .userName {
+    font-size: 22px;
+    color: white;
+    margin-left: 10px;
+    font-weight: bold;
   }
 }
