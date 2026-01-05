@@ -4,6 +4,7 @@ const jsonServer = require('../api.externa');
 const getPosts = async(req, res) => {
     
     const isExcludedRequested = req.query.excluded === 'true';
+    const { userId } = req.query;
     
     try{
         const response = await jsonServer.get('/posts');
@@ -11,6 +12,11 @@ const getPosts = async(req, res) => {
 
         if(req.query.excluded !== undefined){
             posts = posts.filter(p => p.excluded === isExcludedRequested);
+        }
+
+        // Filtrar por userId se fornecido (para professores verem apenas seus posts)
+        if(userId){
+            posts = posts.filter(p => p.userId === userId);
         }
 
         return res.status(200).json({posts});

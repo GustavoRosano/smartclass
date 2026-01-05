@@ -1,11 +1,15 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ClassContent } from "../types/ClassContent";
 import dynamic from "next/dynamic";
 import styles from './styles.module.scss';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import "react-quill-new/dist/quill.snow.css";
+import { PostService } from "../services/post.service";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
@@ -35,11 +39,15 @@ function classContentToHtml(content: ClassContent["content"]) {
 }
 
 export default function TeacherEditClass({ classData }: Props) {
+  const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(classData.image);
   const [title, setTitle] = useState(classData.title);
   const [author, setAuthor] = useState(classData.teacher);
   const [tag, setTag] = useState(classData.classNumber);
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     setContent(classContentToHtml(classData.content));
@@ -49,6 +57,36 @@ export default function TeacherEditClass({ classData }: Props) {
     const file = e.target.files?.[0];
     if (file) {
       setImagePreview(URL.createObjectURL(file));
+    }
+  }
+
+  async function handleSave() {
+    if (!title || !content) {
+      setError("Preencha todos os campos obrigatórios");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      await PostService.update(classData.id, {
+        title,
+        content,
+        userId: classData.teacher,
+        urlImage: imagePreview || classData.image,
+        posted: true,
+        excluded: false
+      });
+
+      setSuccess(true);
+      setTimeout(() => {
+        router.push('/admin');
+      }, 2000);
+    } catch (err: any) {
+      setError(err.message || "Erro ao salvar alterações");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -66,6 +104,10 @@ export default function TeacherEditClass({ classData }: Props) {
   return (
     <div className={styles.newClassPage}>
       <div className={styles.container}>
+        <h1 className={styles.pageTitle}>Editar Aula</h1>
+
+        {error && <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ marginBottom: 2 }}>Aula atualizada com sucesso! Redirecionando...</Alert>}
 
         <div className={styles.imageContainer}>
           <label htmlFor="imageUpload" className={styles.imageSelector}>
@@ -125,6 +167,25 @@ export default function TeacherEditClass({ classData }: Props) {
             modules={modules}
             placeholder="Escreva o conteúdo completo da aula aqui..."
           />
+        </div>
+
+        <div className={styles.actions}>
+          <Button 
+            variant="outlined" 
+            onClick={() => router.back()}
+            className={styles.cancelButton}
+            disabled={loading}
+          >
+            Cancelar
+          </Button>
+          <Button 
+            variant="contained" 
+            onClick={handleSave}
+            disabled={loading}
+            className={styles.saveButton}
+          >
+            {loading ? 'Salvando...' : 'Salvar Alterações'}
+          </Button>
         </div>
 
       </div>

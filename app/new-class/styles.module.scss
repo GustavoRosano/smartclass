@@ -175,6 +175,45 @@
       :global(.ql-container.ql-snow:focus-within) {
         border-color: var(--primary-color);
       }
+      
+      .editorError {
+        color: #d32f2f;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+    }
+
+    .pageTitle {
+      color: var(--primary-color);
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-align: center;
+
+      @media (max-width: 768px) {
+        font-size: 32px;
+      }
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 24px;
+      width: 100%;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .cancelButton {
+        border-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+      }
+
+      .saveButton {
+        background-color: var(--primary-color) !important;
+      }
     }
   }
 }

@@ -1,0 +1,113 @@
+.resetPasswordPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 450px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+  line-height: 1.5;
+
+  strong {
+    color: #667eea;
+  }
+}
+
+.alert {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+.input {
+  margin-bottom: 10px;
+}
+
+.passwordHints {
+  margin-top: -10px;
+  margin-bottom: 10px;
+
+  p {
+    font-size: 13px;
+    color: #999;
+    margin: 5px 0;
+    transition: color 0.3s;
+
+    &.valid {
+      color: #4caf50;
+      font-weight: 500;
+    }
+  }
+}
+
+.submitButton {
+  height: 48px;
+  background-color: #667eea !important;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #5568d3 !important;
+  }
+
+  &:disabled {
+    background-color: #ccc !important;
+  }
+}
+
+.backButton {
+  color: #667eea !important;
+  text-transform: none;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgba(102, 126, 234, 0.04) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 30px 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+}
