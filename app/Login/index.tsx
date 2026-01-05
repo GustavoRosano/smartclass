@@ -1,15 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { TextField, Button, Alert, CircularProgress } from '@mui/material';
 import { useAuth } from "../auth/AuthContext";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./styles.module.scss";
 
-export default function Login() {
+function LoginForm() {
   const { login } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('registered') === 'true') {
+      setSuccess("✅ Conta criada com sucesso! Faça login para continuar.");
+    }
+  }, [searchParams]);
 
   // Validação básica
   const isEmailValid = email.includes('@') && email.includes('.');
@@ -73,6 +83,12 @@ export default function Login() {
             disabled={loading}
           />
           
+          {success && (
+            <Alert severity="success" className={styles.successAlert}>
+              {success}
+            </Alert>
+          )}
+
           {erro && (
             <Alert severity="error" className={styles.errorAlert}>
               {erro}
@@ -87,8 +103,50 @@ export default function Login() {
           >
             {loading ? <CircularProgress size={24} color="inherit" /> : 'Entrar'}
           </Button>
+
+          <div className={styles.linksContainer}>
+            <button 
+              type="button"
+              className={styles.link}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push('/forgot-password');
+              }}
+            >
+              Esqueceu sua senha?
+            </button>
+            
+            <span className={styles.separator}>•</span>
+            
+            <button 
+              type="button"
+              className={styles.link}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push('/register');
+              }}
+            >
+              Criar conta
+            </button>
+          </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className={styles.loginContainer}>
+        <div className={styles.container}>
+          <CircularProgress sx={{ color: '#37ADA5' }} />
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

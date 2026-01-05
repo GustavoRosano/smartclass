@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TextField, Button, Alert, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import styles from './styles.module.scss';
 import { PasswordResetService } from '../services/password-reset.service';
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [token, setToken] = useState('');
@@ -81,7 +81,7 @@ export default function ResetPasswordPage() {
       if (result.success) {
         setSuccess(true);
         setTimeout(() => {
-          router.push('/Login');
+          router.push('/login');
         }, 3000);
       } else {
         setError(result.error || 'Erro ao redefinir senha');
@@ -126,7 +126,7 @@ export default function ResetPasswordPage() {
             <Button
               variant="text"
               fullWidth
-              onClick={() => router.push('/Login')}
+              onClick={() => router.push('/login')}
               className={styles.backButton}
             >
               Voltar ao Login
@@ -216,7 +216,7 @@ export default function ResetPasswordPage() {
               <Button
                 variant="text"
                 fullWidth
-                onClick={() => router.push('/Login')}
+                onClick={() => router.push('/login')}
                 disabled={loading}
                 className={styles.backButton}
               >
@@ -227,5 +227,21 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className={styles.resetPasswordPage}>
+        <div className={styles.container}>
+          <div className={styles.card}>
+            <CircularProgress />
+          </div>
+        </div>
+      </div>
+    }>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

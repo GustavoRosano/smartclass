@@ -2,13 +2,27 @@
 
 import React from "react";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
-import Login from "./Login";
+import { usePathname } from "next/navigation";
+import Login from "./login";
 
 import Header from "@/components/Header";
 import HeaderMobile from "@/components/Header/Mobile";
 
+const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
+
 function AuthGate({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const pathname = usePathname();
+
+  const isPublicRoute = PUBLIC_ROUTES.some(route => pathname?.startsWith(route));
+
+  if (isPublicRoute) {
+    return <>{children}</>;
+  }
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
 
   if (!user) {
     return <Login />;

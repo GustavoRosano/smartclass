@@ -44,7 +44,7 @@ export default function StudentsListPage() {
   useEffect(() => {
     // Check authorization
     if (!user || (user.role !== 'professor' && user.role !== 'admin')) {
-      router.push('/Login');
+      router.push('/login');
       return;
     }
 

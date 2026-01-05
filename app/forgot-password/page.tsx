@@ -118,7 +118,7 @@ export default function ForgotPasswordPage() {
               <Button
                 variant="text"
                 fullWidth
-                onClick={() => router.push('/Login')}
+                onClick={() => router.push('/login')}
                 disabled={loading}
                 className={styles.backButton}
               >

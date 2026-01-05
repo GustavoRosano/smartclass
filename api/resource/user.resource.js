@@ -130,10 +130,18 @@ const postUser = async(req, res)=> {
     const {name, username, email, password, role }  = req.body;
     const user = req.body;
 
-    if(!name || !username || !email || !password || !role){
-        
-        return res.status(400).json({messsage:" As seguintes informações são obrigatórias: name, username, email, password e role "});
+    // username é opcional, será gerado do email se não fornecido
+    if(!name || !email || !password || !role){
+        return res.status(400).json({
+            message: "As seguintes informações são obrigatórias: name, email, password e role"
+        });
     }
+
+    // Se username não fornecido, usar parte do email
+    if (!username) {
+        user.username = email.split('@')[0];
+    }
+
     try{
         
         const response = await jsonServer.post('/users', user);
