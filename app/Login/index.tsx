@@ -41,6 +41,9 @@ function LoginForm() {
 
     if (!response.success) {
       setErro(response.error || "Falha no login");
+    } else {
+      // Redirecionar para home após login bem-sucedido
+      router.push('/');
     }
   }
 
