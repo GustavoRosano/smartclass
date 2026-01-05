@@ -1,4 +1,5 @@
 const axios = require('axios');
+const bcrypt = require('bcrypt');
 
 const jsonServer = require('../api.externa');
 
@@ -17,20 +18,24 @@ const getUserLogin = async (req, res) => {
 
         const foundUsers = response.data;
 
-        // aplicando filtro para buscar o login recebido
-        const userFilter = foundUsers.filter(u =>
-            u.email === email && u.password === password
-        );
+        // Buscar usuário por email
+        const user = foundUsers.find(u => u.email === email);
         
-        // removendo a senha para não devolver para o front por segurança
-        const returnUser = userFilter.map(({ password, ...user }) => user); 
-        
-        // se nenhum login foi encotrado devolve a critica.
-        if (returnUser.length === 0) {
-         return res.status(401).json({ email: 'Email ou senha incorretos!' });
+        if (!user) {
+            return res.status(401).json({ email: 'Email ou senha incorretos!' });
         }
+
+        // Verificar senha com bcrypt
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         
-        return res.status(200).json(returnUser);
+        if (!isPasswordValid) {
+            return res.status(401).json({ email: 'Email ou senha incorretos!' });
+        }
+
+        // Remover senha para não devolver para o front por segurança
+        const { password: _, ...userWithoutPassword } = user;
+        
+        return res.status(200).json([userWithoutPassword]);
  
     } catch (error) {
         
@@ -125,10 +130,18 @@ const postUser = async(req, res)=> {
     const {name, username, email, password, role }  = req.body;
     const user = req.body;
 
-    if(!name || !username || !email || !password || !role){
-        
-        return res.status(400).json({messsage:" As seguintes informações são obrigatórias: name, username, email, password e role "});
+    // username é opcional, será gerado do email se não fornecido
+    if(!name || !email || !password || !role){
+        return res.status(400).json({
+            message: "As seguintes informações são obrigatórias: name, email, password e role"
+        });
     }
+
+    // Se username não fornecido, usar parte do email
+    if (!username) {
+        user.username = email.split('@')[0];
+    }
+
     try{
         
         const response = await jsonServer.post('/users', user);

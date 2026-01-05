@@ -29,24 +29,36 @@
       "role": "aluno"
     }
   ],
-  "post": [
+  "posts": [
     {
       "id": "f58d",
-      "title": "JS",
-      "content": "conteudo teste...",
-      "userId": 1,
-      "urlImage": "https://br.freepik.com/fotos-vetores-gratis/-images",
+      "title": "Introdução ao JavaScript",
+      "content": "JavaScript é uma linguagem de programação interpretada estruturada, de alto nível com tipagem dinâmica fraca e multiparadigma. Junto com HTML e CSS, o JavaScript é uma das três principais tecnologias da World Wide Web.",
+      "userId": "8bb6",
+      "urlImage": "/classes/banner-aula-1.png",
       "posted": true,
-      "excluded": false
+      "excluded": false,
+      "createdAt": "2026-01-01T10:00:00.000Z"
     },
     {
       "id": "b815",
-      "title": "JS",
-      "content": "conteudo teste...",
-      "userId": 1,
-      "urlImage": "https://br.freepik.com/fotos-vetores-gratis/-images",
+      "title": "Fundamentos de React",
+      "content": "React é uma biblioteca JavaScript de código aberto com foco em criar interfaces de usuário em páginas web. É mantido pelo Facebook, Instagram, outras empresas e uma comunidade de desenvolvedores individuais.",
+      "userId": "8bb6",
+      "urlImage": "/classes/banner-aula-2.png",
       "posted": true,
-      "excluded": false
+      "excluded": false,
+      "createdAt": "2026-01-02T14:30:00.000Z"
+    },
+    {
+      "id": "c926",
+      "title": "TypeScript para Iniciantes",
+      "content": "TypeScript é um superconjunto de JavaScript desenvolvido pela Microsoft que adiciona tipagem estática opcional à linguagem. Ele é projetado para desenvolvimento de aplicações de grande porte e compila para JavaScript.",
+      "userId": "e565",
+      "urlImage": "/classes/banner-aula-3.png",
+      "posted": true,
+      "excluded": false,
+      "createdAt": "2026-01-03T09:15:00.000Z"
     }
   ]
 }

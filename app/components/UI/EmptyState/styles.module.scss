@@ -1,0 +1,33 @@
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  min-height: 400px;
+  
+  .title {
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  
+  .message {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 400px;
+  }
+  
+  .actionButton {
+    background-color: #667eea !important;
+    text-transform: none;
+    font-weight: 600;
+
+    &:hover {
+      background-color: #5568d3 !important;
+    }
+  }
+}
