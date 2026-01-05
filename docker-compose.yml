@@ -1,0 +1,44 @@
+services:
+  # Backend API
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: smartclass-api
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - JSON_SERVER_URL=https://smartclass-backend-4dra.onrender.com
+    networks:
+      - smartclass-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3002/api/users"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Next.js
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartclass-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://api:3002
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - smartclass-network
+    restart: unless-stopped
+
+networks:
+  smartclass-network:
+    driver: bridge

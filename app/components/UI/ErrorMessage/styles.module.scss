@@ -1,0 +1,21 @@
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  
+  .alert {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .retryButton {
+    background-color: var(--primary-color) !important;
+    color: white;
+    
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

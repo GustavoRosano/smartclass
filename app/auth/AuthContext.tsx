@@ -1,18 +1,11 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { default as api } from '../../api/middle.axios';
-
-type User = {
-  id: string;
-  email: string;
-  name: string;
-  role: "professor" | "aluno";
-  matter?: string
-};
+import { AuthService, User, LoginResponse } from '../services/auth.service';
 
 type AuthContextType = {
   user: User | null;
-  login: (email: string, senha: string) => Promise<boolean>;
+  loading: boolean;
+  login: (email: string, senha: string) => Promise<LoginResponse>;
   logout: () => void;
 };
 
@@ -20,51 +13,32 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("user");
-    if (saved) setUser(JSON.parse(saved));
+    const savedUser = AuthService.getSession();
+    setUser(savedUser);
+    setLoading(false);
   }, []);
 
-  async function login(email: string, senha: string) {
-    try{
-    const response = await api.get<User[]>('/api/users/login', {
-           params:{
-              email: email,
-              password: senha
-           }
-        });
-     
-     const foundUsers = response.data;
-       
-        // Verifica se o array tem um usuário (login bem-sucedido)
-        if (foundUsers[0].email === email) {
-           
-            const loggedInUser = foundUsers[0];
-           
-            setUser(loggedInUser);
-            localStorage.setItem("user", JSON.stringify(loggedInUser));
-            return true;
-       
-        } else {
-           // falha: Array vazio (credenciais incorretas)
-            return false;
-        }
-
-    } catch (error) {
-        console.error("Erro na API ou na lógica:", error);
-        return false;
+  async function login(email: string, senha: string): Promise<LoginResponse> {
+    const response = await AuthService.login(email, senha);
+    
+    if (response.success && response.user) {
+      setUser(response.user);
+      AuthService.saveSession(response.user);
     }
-   
-   }
+    
+    return response;
+  }
 
   function logout() {
     setUser(null);
-    localStorage.removeItem("user");
+    AuthService.clearSession();
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

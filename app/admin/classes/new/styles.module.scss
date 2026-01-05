@@ -1,0 +1,91 @@
+.newClassPage {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.paper {
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.backButton {
+  align-self: flex-start;
+  text-transform: none;
+  color: #667eea !important;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgba(102, 126, 234, 0.04) !important;
+  }
+}
+
+.title {
+  font-weight: 700;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.cancelButton {
+  border-color: #999 !important;
+  color: #999 !important;
+  text-transform: none;
+  font-weight: 500;
+
+  &:hover {
+    border-color: #666 !important;
+    color: #666 !important;
+  }
+}
+
+.submitButton {
+  background-color: #667eea !important;
+  text-transform: none;
+  font-weight: 600;
+  min-width: 150px;
+
+  &:hover {
+    background-color: #5568d3 !important;
+  }
+
+  &:disabled {
+    background-color: #ccc !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .newClassPage {
+    padding: 20px 15px;
+  }
+
+  .paper {
+    padding: 25px 20px;
+  }
+
+  .actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}
