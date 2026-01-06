@@ -39,14 +39,6 @@ export default function Header() {
                 <ArticleIcon sx={{ marginRight: 0.5, fontSize: 20 }} />
                 Meus Posts
               </a>
-              <a href="/admin/classes" className={styles.menuLink} title="Minhas Aulas">
-                <SchoolIcon sx={{ marginRight: 0.5, fontSize: 20 }} />
-                Minhas Aulas
-              </a>
-              <a href="/admin/students" className={styles.menuLink} title="Gerenciar Alunos">
-                <PeopleIcon sx={{ marginRight: 0.5, fontSize: 20 }} />
-                Alunos
-              </a>
             </>
           ) : (
             <>
