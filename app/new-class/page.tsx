@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import styles from './styles.module.scss';
@@ -28,6 +28,16 @@ export default function NewClass() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  // ✅ CORREÇÃO: Cleanup de blob URLs ao desmontar
+  useEffect(() => {
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   // Validações
   const isTitleValid = title.trim().length >= 3;
@@ -40,20 +50,27 @@ export default function NewClass() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validar tipo de arquivo
+    // Validar tipo
     if (!file.type.startsWith('image/')) {
-      setError("Por favor, selecione apenas arquivos de imagem");
+      setError("Selecione apenas arquivos de imagem");
       return;
     }
 
-    // Validar tamanho (max 5MB)
+    // Validar tamanho (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setError("Imagem muito grande. Tamanho máximo: 5MB");
+      setError("Imagem muito grande. Máximo: 5MB");
       return;
     }
 
-    // ✅ CORREÇÃO: Verificar se está no browser antes de usar URL.createObjectURL
+    setImageFile(file);
+
+    // ✅ CORREÇÃO: Criar preview apenas no browser
     if (typeof window !== 'undefined') {
+      // Revogar blob anterior
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      
       const preview = URL.createObjectURL(file);
       setImagePreview(preview);
     }
@@ -69,12 +86,17 @@ export default function NewClass() {
     setError("");
 
     try {
+      // ✅ CORREÇÃO: Não enviar blob URLs
+      const finalImageUrl = imagePreview && !imagePreview.startsWith('blob:')
+        ? imagePreview
+        : "/classes/banner-aula-1.png";
+
       await PostService.create({
         title,
         author,
         content,
-        userId: user?.id || "1",
-        urlImage: imagePreview || "/classes/banner-aula-1.png",
+        userId: user?.id || user?.email || "unknown",
+        urlImage: finalImageUrl,
         posted: true,
         excluded: false
       });

@@ -82,17 +82,26 @@ async function listClasses(req, res) {
       filters.teacherId = teacherId;
     }
 
-    const classes = await classService.getAllClasses(filters);
-
-    // Se é aluno, filtrar apenas classes onde está matriculado
+    // ✅ CORREÇÃO: Filtrar classes onde aluno está matriculado com status 'approved'
     if (req.user && req.user.role === 'aluno') {
-      const studentClasses = await classService.getStudentClasses(req.user._id || req.user.id);
+      const allClasses = await classService.getAllClasses(filters);
+      const studentClasses = allClasses.filter(cls => 
+        cls.students?.some(s => 
+          (s.userId === req.user._id || s.userId === req.user.id) && 
+          s.status === 'approved'
+        )
+      );
+      
+      console.log('[ClassController] 🔍 Aluno tem', studentClasses.length, 'matrículas aprovadas');
+      
       return res.status(200).json({
         success: true,
         classes: studentClasses,
         total: studentClasses.length
       });
     }
+
+    const classes = await classService.getAllClasses(filters);
 
     return res.status(200).json({
       success: true,
