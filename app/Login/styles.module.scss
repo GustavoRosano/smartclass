@@ -159,6 +159,55 @@
       .successAlert {
         width: 100%;
       }
+
+      .linksContainer {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        width: 100%;
+        justify-content: center;
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .link {
+          color: #37ADA5;
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          background: none;
+          border: none;
+          padding: 0;
+          font-family: inherit;
+
+          &:hover {
+            color: #2d8f89;
+            text-decoration: underline;
+          }
+        }
+
+        .separator {
+          color: #37ADA5;
+          font-size: 14px;
+
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+      }
+
+      .errorAlert {
+        width: 100%;
+      }
+
+      .successAlert {
+        width: 100%;
+      }
     }
   }
 }

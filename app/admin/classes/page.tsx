@@ -45,18 +45,23 @@ export default function ClassesListPage() {
   }, [user, router]);
 
   async function loadClasses() {
+
+    console.log('[ClassesPage] 🔄 Carregando aulas...');
     setLoading(true);
     setError(null);
-    
+
     // Load only teacher's classes
     const result = await ClassService.listClasses(true);
-    
+    console.log('[ClassesPage] 📦 Resultado:', result);
+
     if (result.success && result.classes) {
+      console.log('[ClassesPage] ✅ Aulas carregadas:', result.classes.length);
       setClasses(result.classes);
     } else {
+      console.error('[ClassesPage] ❌ Erro ao carregar aulas:', result.error);
       setError(result.error || 'Erro ao carregar aulas');
     }
-    
+
     setLoading(false);
   }
 
@@ -82,7 +87,7 @@ export default function ClassesListPage() {
 
     setDeleting(true);
     const result = await ClassService.deleteClass(classToDelete._id);
-    
+
     if (result.success) {
       // Remove from list
       setClasses(classes.filter(c => c._id !== classToDelete._id));
@@ -91,7 +96,7 @@ export default function ClassesListPage() {
     } else {
       setError(result.error || 'Erro ao remover aula');
     }
-    
+
     setDeleting(false);
   }
 
@@ -100,6 +105,7 @@ export default function ClassesListPage() {
     setClassToDelete(null);
   }
 
+  // Loading State
   if (loading) {
     return (
       <Box className={styles.classesPage}>
@@ -110,29 +116,39 @@ export default function ClassesListPage() {
     );
   }
 
-  return (
-    <Box className={styles.classesPage}>
-      <Box className={styles.header}>
-        <Typography variant="h4" component="h1" className={styles.title}>
-          Minhas Aulas
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          onClick={handleCreateNew}
-          className={styles.createButton}
-        >
-          Nova Aula
-        </Button>
-      </Box>
+  // Error State
+  if (error) {
+    return (
+      <Box className={styles.classesPage}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.title}>
+            Minhas Aulas
+          </Typography>
+        </Box>
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+        <Alert severity="error" sx={{ mb: 3 }}>
           {error}
         </Alert>
-      )}
 
-      {classes.length === 0 ? (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Button variant="contained" onClick={loadClasses}>
+            Tentar Novamente
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
+  // Empty State
+  if (classes.length === 0) {
+    return (
+      <Box className={styles.classesPage}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.title}>
+            Minhas Aulas
+          </Typography>
+        </Box>
+
         <Paper className={styles.emptyState}>
           <Typography variant="h6" color="textSecondary" gutterBottom>
             Nenhuma aula cadastrada
@@ -149,85 +165,104 @@ export default function ClassesListPage() {
             Criar Primeira Aula
           </Button>
         </Paper>
-      ) : (
-        <Box 
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)'
-            },
-            gap: 3
-          }}
+      </Box>
+    );
+  }
+
+  // Success State
+  return (
+    <Box className={styles.classesPage}>
+      <Box className={styles.header}>
+        <Typography variant="h4" component="h1" className={styles.title}>
+          Minhas Aulas
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={handleCreateNew}
+          className={styles.createButton}
         >
-          {classes.map((classData) => {
-            const stats = ClassService.getClassStats(classData);
-            
-            return (
-              <Card key={classData._id} className={styles.classCard}>
-                <CardContent>
-                  <Typography variant="h6" component="h2" className={styles.className}>
-                      {classData.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" className={styles.description}>
-                      {classData.description.length > 100
-                        ? `${classData.description.substring(0, 100)}...`
-                        : classData.description}
-                    </Typography>
+          Nova Aula
+        </Button>
+      </Box>
 
-                    <Box className={styles.stats}>
-                      <Chip
-                        icon={<People />}
-                        label={`${stats.approved}/${classData.maxStudents} alunos`}
-                        size="small"
-                        color={stats.approved >= classData.maxStudents ? 'error' : 'primary'}
-                      />
-                      {stats.pending > 0 && (
-                        <Chip
-                          label={`${stats.pending} pendentes`}
-                          size="small"
-                          color="warning"
-                        />
-                      )}
-                    </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)'
+          },
+          gap: 3
+        }}
+      >
+        {classes.map((classData) => {
+          const stats = ClassService.getClassStats(classData);
 
-                    {classData.startDate && (
-                      <Typography variant="caption" color="textSecondary" display="block" sx={{ mt: 1 }}>
-                        Início: {new Date(classData.startDate).toLocaleDateString('pt-BR')}
-                      </Typography>
-                    )}
-                  </CardContent>
+          return (
+            <Card key={classData._id} className={styles.classCard}>
+              <CardContent>
+                <Typography variant="h6" component="h2" className={styles.className}>
+                  {classData.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" className={styles.description}>
+                  {classData.description.length > 100
+                    ? `${classData.description.substring(0, 100)}...`
+                    : classData.description}
+                </Typography>
 
-                  <CardActions className={styles.actions}>
-                    <Button
+                <Box className={styles.stats}>
+                  <Chip
+                    icon={<People />}
+                    label={`${stats.approved}/${classData.maxStudents} alunos`}
+                    size="small"
+                    color={stats.approved >= classData.maxStudents ? 'error' : 'primary'}
+                  />
+                  {stats.pending > 0 && (
+                    <Chip
+                      label={`${stats.pending} pendentes`}
                       size="small"
-                      startIcon={<CheckCircle />}
-                      onClick={() => handleManageEnrollments(classData._id)}
-                    >
-                      Matrículas
-                    </Button>
-                    <Button
-                      size="small"
-                      startIcon={<Edit />}
-                      onClick={() => handleEdit(classData._id)}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      size="small"
-                      startIcon={<Delete />}
-                      onClick={() => handleDeleteClick(classData)}
-                      color="error"
-                    >
-                      Remover
-                    </Button>
-                  </CardActions>
-                </Card>
-            );
-          })}
-        </Box>
-      )}
+                      color="warning"
+                    />
+                  )}
+                </Box>
+
+                {classData.startDate && (
+                  <Typography variant="caption" color="textSecondary" display="block" sx={{ mt: 1 }}>
+                    Início: {new Date(classData.startDate).toLocaleDateString('pt-BR')}
+                  </Typography>
+                )}
+              </CardContent>
+
+              <CardActions className={styles.actions}>
+                <Button
+                  size="small"
+                  startIcon={<CheckCircle />}
+                  onClick={() => handleManageEnrollments(classData._id)}
+                >
+                  Matrículas
+                </Button>
+                <Button
+                  size="small"
+                  startIcon={<Edit />}
+                  onClick={() => handleEdit(classData._id)}
+                >
+                  Editar
+                </Button>
+                <Button
+                  size="small"
+                  startIcon={<Delete />}
+                  onClick={() => handleDeleteClick(classData)}
+                  color="error"
+                >
+                  Remover
+                </Button>
+              </CardActions>
+            </Card>
+          );
+        })}
+      </Box>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>

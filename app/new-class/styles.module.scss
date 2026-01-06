@@ -212,7 +212,11 @@
       }
 
       .saveButton {
-        background-color: var(--primary-color) !important;
+        background-color: var(--primary-color);
+
+        &:disabled {
+          background-color: #888 !important;
+        }
       }
     }
   }

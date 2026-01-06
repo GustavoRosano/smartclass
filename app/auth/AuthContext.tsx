@@ -16,9 +16,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('[AuthContext] 🔄 Inicializando autenticação...');
     const savedUser = AuthService.getSession();
+    console.log('[AuthContext] 👤 Sessão recuperada:', savedUser ? savedUser.email : 'Nenhuma sessão');
     setUser(savedUser);
     setLoading(false);
+    console.log('[AuthContext] ✅ Autenticação inicializada');
   }, []);
 
   async function login(email: string, senha: string): Promise<LoginResponse> {

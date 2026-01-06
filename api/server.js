@@ -13,10 +13,15 @@ api.use(cors({
   credentials: true
 }));
 
- 
+console.log('[Server] ✅ Montando rotas em /api');
 api.use("/api/", routes); 
 
 api.listen(PORT, () => {
-  console.log(`Servidor Express rodando em ${_URL}:${PORT}`);
+  console.log(`✅ API disponível em ${_URL}:${PORT}/api`);
+  console.log(`[Server] Rotas disponíveis:`);
+  console.log(`  - POST ${_URL}:${PORT}/api/students`);
+  console.log(`  - GET  ${_URL}:${PORT}/api/students`);
+  console.log(`  - POST ${_URL}:${PORT}/api/classes`);
+  console.log(`  - GET  ${_URL}:${PORT}/api/classes`);
 });
  module.exports = { api };

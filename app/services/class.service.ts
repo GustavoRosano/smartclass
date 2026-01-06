@@ -124,15 +124,30 @@ class ClassService {
   async listClasses(myClassesOnly: boolean = false): Promise<ListClassesResponse> {
     try {
       const params = myClassesOnly ? { my: 'true' } : {};
+            
+      console.log('[ClassService] 📞 Chamando GET /classes');
+      console.log('[ClassService] 🔗 baseURL:', api.defaults.baseURL);
+      console.log('[ClassService] 📋 params:', params);
+      
       const response = await api.get('/classes', { params });
+      
+      console.log('[ClassService] ✅ Resposta:', {
+        status: response.status,
+        total: response.data.total,
+        classes: response.data.classes?.length
+      });
+
       return {
         success: true,
-        classes: response.data.classes,
-        total: response.data.total,
+        classes: response.data.classes || [],
+        total: response.data.total || 0,
         message: response.data.message
       };
     } catch (error: any) {
-      console.error('Error listing classes:', error);
+      console.error('[ClassService] ❌ Erro:', error);
+      console.error('[ClassService] ❌ URL tentada:', error.config?.url);
+      console.error('[ClassService] ❌ baseURL:', error.config?.baseURL);
+      
       return {
         success: false,
         error: error.response?.data?.error || 'Erro ao listar aulas'
