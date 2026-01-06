@@ -1,9 +1,8 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../auth/AuthContext";
 import { PostService, Post } from "../services/post.service";
-import { useApiState } from "../hooks/useApiState";
 import Loading from "../components/UI/Loading";
 import ErrorMessage from "../components/UI/ErrorMessage";
 import EmptyState from "../components/UI/EmptyState";
@@ -16,7 +15,10 @@ import styles from "./styles.module.scss";
 export default function AdminPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const { data: posts, loading, error, execute } = useApiState<Post[]>();
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user || (user.role !== 'professor' && user.role !== 'admin')) {
@@ -27,19 +29,39 @@ export default function AdminPage() {
   }, [user]);
 
   async function loadPosts() {
-    // Admin vê todos os posts, professor vê apenas os seus
-    const userId = user?.role === 'professor' ? user.id : undefined;
-    await execute(() => PostService.getAll(false, userId));
+    try {
+      setLoading(true);
+      setError(null);
+      // Admin vê todos os posts, professor vê apenas os seus
+      const userId = user?.role === 'professor' ? user.id : undefined;
+      const data = await PostService.getAll(false, userId);
+      setPosts(data);
+    } catch (err: any) {
+      console.error('[AdminPage] ❌ Erro ao carregar posts:', err);
+      setError(err.message || 'Erro ao carregar posts');
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function handleDelete(id: string, title: string) {
     if (!confirm(`Confirma exclusão de "${title}"?`)) return;
     
     try {
+      setDeletingId(id);
+      
       await PostService.delete(id);
-      loadPosts();
-    } catch (error) {
-      alert('Erro ao excluir post');
+      
+      // ✅ CORREÇÃO: Atualizar estado local IMEDIATAMENTE
+      setPosts(prevPosts => prevPosts.filter(p => p.id !== id));
+      
+      console.log('[AdminPage] ✅ Post removido da UI');
+      
+    } catch (error: any) {
+      console.error('[AdminPage] ❌ Erro ao excluir:', error);
+      alert(error.message || 'Erro ao excluir post');
+    } finally {
+      setDeletingId(null);
     }
   }
 

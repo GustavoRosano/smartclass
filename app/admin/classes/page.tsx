@@ -45,7 +45,6 @@ export default function ClassesListPage() {
   }, [user, router]);
 
   async function loadClasses() {
-
     console.log('[ClassesPage] 🔄 Carregando aulas...');
     setLoading(true);
     setError(null);
@@ -85,19 +84,28 @@ export default function ClassesListPage() {
   async function handleDeleteConfirm() {
     if (!classToDelete) return;
 
-    setDeleting(true);
-    const result = await ClassService.deleteClass(classToDelete._id);
+    try {
+      setDeleting(true);
 
-    if (result.success) {
-      // Remove from list
-      setClasses(classes.filter(c => c._id !== classToDelete._id));
-      setDeleteDialogOpen(false);
-      setClassToDelete(null);
-    } else {
-      setError(result.error || 'Erro ao remover aula');
+      const result = await ClassService.deleteClass(classToDelete._id);
+
+      if (result.success) {
+        // ✅ CORREÇÃO: Atualizar estado local IMEDIATAMENTE
+        setClasses(prevClasses => prevClasses.filter(c => c._id !== classToDelete._id));
+
+        console.log('[ClassesPage] ✅ Aula removida da UI');
+
+        setDeleteDialogOpen(false);
+        setClassToDelete(null);
+      } else {
+        setError(result.error || 'Erro ao remover aula');
+      }
+    } catch (err: any) {
+      console.error('[ClassesPage] ❌ Erro ao deletar:', err);
+      setError(err.message || 'Erro ao remover aula');
+    } finally {
+      setDeleting(false);
     }
-
-    setDeleting(false);
   }
 
   function handleDeleteCancel() {
