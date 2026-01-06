@@ -1,0 +1,55 @@
+.enrollmentsPage {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.backButton {
+  text-transform: none;
+  color: #667eea !important;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgba(102, 126, 234, 0.04) !important;
+  }
+}
+
+.paper {
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.statsBar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .enrollmentsPage {
+    padding: 20px 15px;
+  }
+
+  .paper {
+    padding: 20px 15px;
+  }
+
+  .statsBar {
+    flex-direction: column;
+
+    > * {
+      width: 100%;
+    }
+  }
+}

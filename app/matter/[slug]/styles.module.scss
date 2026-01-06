@@ -1,0 +1,75 @@
+.studentPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: var(--student-page-height-desktop);
+
+  @media screen and (max-width: 768px) {
+    height: var(--student-page-height-mobile);
+    min-height: var(--student-page-min-height-mobile);
+  }
+
+  .overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--student-page-overlay-padding-desktop);
+    background-color: var(--overlay-color);
+    width: var(--student-page-overlay-width);
+    height: var(--student-page-overlay-height-desktop);
+
+    @media screen and (max-width: 768px) {
+      padding: var(--student-page-overlay-padding-mobile);
+      height: var(--student-page-overlay-height-mobile);
+      min-height: var(--student-page-overlay-min-height-mobile);
+      justify-content: flex-start;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: var(--student-page-container-width);
+      max-width: var(--container-width);
+      gap: var(--student-page-container-gap-desktop);
+
+      @media screen and (max-width: 768px) {
+        gap: var(--student-page-container-gap-mobile);
+      }
+
+      .classTitle {
+        color: var(--white-label-color);
+        font-size: var(--font-h1-desktop);
+        font-weight: bold;
+        text-shadow: 1px 0px 10px rgba(55,173,165,0.71);
+
+        @media screen and (max-width: 768px) {
+          font-size: var(--font-h1-mobile);
+          text-align: center;
+        }
+      }
+
+      .cards {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: var(--student-page-cards-gap-desktop);
+
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          gap: var(--student-page-cards-gap-mobile);
+          overflow-x: auto;
+          height: var(--student-page-cards-height-mobile);
+          max-height: var(--student-page-cards-max-height-mobile);
+          padding-top: var(--student-page-cards-padding-top-mobile);
+        }
+      }
+    }
+  }
+}

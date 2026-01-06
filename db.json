@@ -1,0 +1,64 @@
+{
+  "user": [
+    {
+      "id": "2",
+      "name": "Aluno de Souza",
+      "email": "aluno@gmail.com",
+      "password": "654321",
+      "role": "aluno"
+    },
+    {
+      "id": "8bb6",
+      "name": "José das Couves",
+      "email": "jose.couves@gmail.com",
+      "password": "7890",
+      "role": "professor"
+    },
+    {
+      "id": "e565",
+      "name": "José das Couves",
+      "email": "jose.couves@gmail.com",
+      "password": "7890",
+      "role": "professor"
+    },
+    {
+      "id": "04a7",
+      "name": "Marcos Vasques",
+      "email": "marcos.vasques@gmail.com",
+      "password": "7890",
+      "role": "aluno"
+    }
+  ],
+  "posts": [
+    {
+      "id": "f58d",
+      "title": "Introdução ao JavaScript",
+      "content": "JavaScript é uma linguagem de programação interpretada estruturada, de alto nível com tipagem dinâmica fraca e multiparadigma. Junto com HTML e CSS, o JavaScript é uma das três principais tecnologias da World Wide Web.",
+      "userId": "8bb6",
+      "urlImage": "/classes/banner-aula-1.png",
+      "posted": true,
+      "excluded": false,
+      "createdAt": "2026-01-01T10:00:00.000Z"
+    },
+    {
+      "id": "b815",
+      "title": "Fundamentos de React",
+      "content": "React é uma biblioteca JavaScript de código aberto com foco em criar interfaces de usuário em páginas web. É mantido pelo Facebook, Instagram, outras empresas e uma comunidade de desenvolvedores individuais.",
+      "userId": "8bb6",
+      "urlImage": "/classes/banner-aula-2.png",
+      "posted": true,
+      "excluded": false,
+      "createdAt": "2026-01-02T14:30:00.000Z"
+    },
+    {
+      "id": "c926",
+      "title": "TypeScript para Iniciantes",
+      "content": "TypeScript é um superconjunto de JavaScript desenvolvido pela Microsoft que adiciona tipagem estática opcional à linguagem. Ele é projetado para desenvolvimento de aplicações de grande porte e compila para JavaScript.",
+      "userId": "e565",
+      "urlImage": "/classes/banner-aula-3.png",
+      "posted": true,
+      "excluded": false,
+      "createdAt": "2026-01-03T09:15:00.000Z"
+    }
+  ]
+}

@@ -2,14 +2,218 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 130px;
+  padding: var(--newclass-page-padding-desktop);
+
+  @media screen and (max-width: 768px) {
+    padding: var(--newclass-page-padding-mobile);
+  }
 
   .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: var(--newclass-page-container-width);
     max-width: var(--container-width);
+
+    .imageContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 25px;
+      width: 100%;
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .imageSelector {
+        width: 420px;
+        height: 280px;
+        border: 2px dashed #ccc;
+        background-color: #A8A8A8;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 14px;
+        text-align: center;
+        overflow: hidden;
+
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          height: 175px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .titleInputsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+
+        :global(.MuiOutlinedInput-root) {
+          border-radius: 12px;
+          color: var(--primary-color);
+
+          :global(fieldset) {
+            border-color: var(--primary-color);
+          }
+
+          &:hover :global(fieldset) {
+            border-color: var(--primary-color);
+          }
+
+          &.Mui-focused :global(fieldset) {
+            border-color: var(--primary-color);
+            border-width: 2px;
+          }
+        }
+
+        :global(.MuiInputBase-input) {
+          color: var(--white-label-color);
+          padding: 14px;
+          font-size: 15px;
+        }
+
+        :global(.MuiInputLabel-root) {
+          color: var(--primary-color);
+
+          &.Mui-focused {
+            color: var(--primary-color);
+          }
+        }
+
+        .titleInput {
+          width: 100%;
+        }
+
+        .author {
+          display: flex;
+          gap: 15px;
+          width: 100%;
+
+          @media screen and (max-width: 768px) {
+            flex-direction: column;
+          }
+
+          .tagInput {
+            width: 140px;
+
+            @media screen and (max-width: 768px) {
+              width: 100%;
+            }
+          }
+
+          .authorInput {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .editorContainer {
+      width: 100%;
+      margin-top: 34px;
+
+      .editorLabel {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--primary-color);
+      }
+
+      :global(.ql-toolbar) {
+        border-radius: 12px 12px 0 0;
+        border: 1px solid var(--primary-color);
+        background-color: transparent;
+      }
+
+      :global(.ql-container) {
+        min-height: 380px;
+        border-radius: 0 0 12px 12px;
+        border: 1px solid var(--primary-color);
+        border-top: none;
+        font-size: 16px;
+      }
+
+      :global(.ql-editor) {
+        min-height: 320px;
+        color: var(--white-label-color);
+        padding: 16px;
+        line-height: 1.6;
+
+        h1 {
+          font-size: 26px;
+          margin-bottom: 12px;
+        }
+
+        h2 {
+          font-size: 22px;
+          margin-bottom: 10px;
+        }
+
+        p {
+          margin-bottom: 10px;
+        }
+
+        a {
+          color: var(--primary-color);
+          text-decoration: underline;
+        }
+      }
+
+      :global(.ql-container.ql-snow:focus-within) {
+        border-color: var(--primary-color);
+      }
+      
+      .editorError {
+        color: #d32f2f;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+    }
+
+    .pageTitle {
+      color: var(--primary-color);
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-align: center;
+
+      @media (max-width: 768px) {
+        font-size: 32px;
+      }
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 24px;
+      width: 100%;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .cancelButton {
+        border-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+      }
+
+      .saveButton {
+        background-color: var(--primary-color) !important;
+      }
+    }
   }
 }

@@ -1,0 +1,75 @@
+.studentsPage {
+  padding: 95px 30px 40px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+.title {
+  font-weight: 700;
+  color: #333;
+}
+
+.createButton {
+  background-color: #667eea !important;
+  text-transform: none;
+  font-weight: 600;
+  padding: 10px 24px;
+
+  &:hover {
+    background-color: #5568d3 !important;
+  }
+}
+
+.tableContainer {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+
+  .MuiTableHead-root {
+    background-color: #f8f9fa;
+    
+    .MuiTableCell-root {
+      font-weight: 700;
+      color: #333;
+      border-bottom: 2px solid #dee2e6;
+    }
+  }
+
+  .MuiTableRow-root {
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+  .MuiTableCell-root {
+    padding: 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .studentsPage {
+    padding: 20px 15px;
+  }
+
+  .createButton {
+    width: 100%;
+  }
+
+  .tableContainer {
+    overflow-x: auto;
+  }
+}
