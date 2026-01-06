@@ -59,7 +59,7 @@
       }
 
       .title {
-        color: #37ADA5;
+        color: #FFF;
         font-size: 40px;
         font-weight: 900;
         margin-bottom: 20px;
@@ -77,24 +77,25 @@
         }
 
         :global(.MuiInputLabel-root) {
-          color: #37ADA5;
+          color: #FFF;
         }
 
         :global(.MuiOutlinedInput-notchedOutline) {
-          border-color: #37ADA5;
+          border-color: #FFF;
         }
 
         :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
-          border-color: #37ADA5;
+          border-color: #FFF;
         }
 
         :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
-          border-color: #37ADA5;
+          border-color: #FFF;
         }
       }
 
       .loginButton {
-        background-color: #37ADA5;
+        background-color: #FFF;
+        color: #000;
         font-size: 16px;
         font-weight: 700;
         width: 100%;
@@ -102,6 +103,11 @@
 
         @media (max-width: 768px) {
           width: 300px;
+        }
+
+        &:disabled {
+          background-color: #999;
+          color: #757575;
         }
       }
 
@@ -119,7 +125,7 @@
         }
 
         .link {
-          color: #37ADA5;
+          color: #FFF;
           font-size: 14px;
           font-weight: 500;
           text-decoration: none;
@@ -137,7 +143,7 @@
         }
 
         .separator {
-          color: #37ADA5;
+          color: #FFF;
           font-size: 14px;
 
           @media (max-width: 768px) {
