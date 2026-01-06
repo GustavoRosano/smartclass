@@ -91,37 +91,6 @@ export default function NewClass() {
     }
   }
 
-  async function handleSave() {
-    if (!isFormValid) {
-      setError("Preencha todos os campos corretamente");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      await PostService.create({
-        title,
-        content,
-        userId: user?.id || "1",
-        urlImage: imagePreview || "/classes/banner-aula-1.png",
-        posted: true,
-        excluded: false
-      });
-
-      setSuccess(true);
-      setTimeout(() => {
-        router.push('/admin');
-      }, 2000);
-
-    } catch (err: any) {
-      setError(err.message || "Erro ao salvar post");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   const modules: Record<string, unknown> = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
