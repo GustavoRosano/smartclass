@@ -177,5 +177,30 @@
         border-color: var(--primary-color);
       }
     }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 24px;
+      width: 100%;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .cancelButton {
+        border-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+      }
+
+      .saveButton {
+        background-color: var(--primary-color);
+
+        &:disabled {
+          background-color: #888 !important;
+        }
+      }
+    }
   }
 }

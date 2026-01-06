@@ -85,15 +85,28 @@ class StudentService {
    */
   async listStudents(): Promise<ListStudentsResponse> {
     try {
+      console.log('[StudentService] 📞 Chamando GET /students');
+      console.log('[StudentService] 🔗 baseURL:', api.defaults.baseURL);
+      
       const response = await api.get('/students');
+      
+      console.log('[StudentService] ✅ Resposta:', {
+        status: response.status,
+        total: response.data.total,
+        students: response.data.students?.length
+      });
+
       return {
         success: true,
-        students: response.data.students,
-        total: response.data.total,
+        students: response.data.students || [],
+        total: response.data.total || 0,
         message: response.data.message
       };
     } catch (error: any) {
-      console.error('Error listing students:', error);
+      console.error('[StudentService] ❌ Erro:', error);
+      console.error('[StudentService] ❌ URL tentada:', error.config?.url);
+      console.error('[StudentService] ❌ baseURL:', error.config?.baseURL);
+      
       return {
         success: false,
         error: error.response?.data?.error || 'Erro ao listar alunos'

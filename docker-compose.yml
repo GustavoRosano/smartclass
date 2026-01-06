@@ -31,7 +31,12 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+<<<<<<< HEAD
       - NEXT_PUBLIC_API_URL=http://api:3002
+=======
+      - NEXT_PUBLIC_API_URL=http://localhost:3002/api
+      - NEXT_PUBLIC_API_URL_INTERNAL=http://api:3002/api
+>>>>>>> fork/main
     depends_on:
       api:
         condition: service_healthy

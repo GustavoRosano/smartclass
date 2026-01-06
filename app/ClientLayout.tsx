@@ -3,7 +3,8 @@
 import React from "react";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { usePathname } from "next/navigation";
-import Login from "./Login";
+
+import Login from "./login";
 
 import Header from "@/components/Header";
 import HeaderMobile from "@/components/Header/Mobile";
@@ -21,7 +22,11 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   }
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <div>Carregando...</div>
+      </div>
+    );
   }
 
   if (!user) {

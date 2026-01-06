@@ -61,13 +61,17 @@
       }
 
       .title {
-        color: #37ADA5;
+        color: #FFF;
         font-size: 40px;
         font-weight: 900;
         margin-bottom: 10px;
 
         @media (max-width: 768px) {
           font-size: 32px;
+        }
+
+        @media screen and (min-width: 1024px) and (max-width: 1600px) {
+          padding-top: 25px;
         }
       }
 
@@ -83,35 +87,41 @@
         }
 
         :global(.MuiInputLabel-root) {
-          color: #37ADA5;
+          color: #FFF;
         }
 
         :global(.MuiOutlinedInput-notchedOutline) {
-          border-color: #37ADA5;
+          border-color: #FFF;
         }
 
         :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
-          border-color: #37ADA5;
+          border-color: #FFF;
         }
 
         :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
-          border-color: #37ADA5;
+          border-color: #FFF;
         }
 
         :global(.MuiSelect-icon) {
-          color: #37ADA5;
+          color: #FFF;
         }
       }
 
       .registerButton {
-        background-color: #37ADA5;
+        background-color: #FFF;
+        color: #000;
         font-size: 16px;
         font-weight: 700;
         width: 100%;
         margin-top: 10px;
 
         &:hover {
-          background-color: #2d8f89;
+          background-color: #cfcfcf;
+        }
+
+        &:disabled {
+          background-color: #999;
+          color: #757575;
         }
       }
 
@@ -129,7 +139,7 @@
         }
 
         .link {
-          color: #37ADA5;
+          color: #FFF;
           font-size: 14px;
           font-weight: 600;
           text-decoration: none;
@@ -137,7 +147,7 @@
           cursor: pointer;
 
           &:hover {
-            color: #2d8f89;
+            color: #cfcfcf;
             text-decoration: underline;
           }
         }
