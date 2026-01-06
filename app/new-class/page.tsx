@@ -38,8 +38,24 @@ export default function NewClass() {
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
+    if (!file) return;
+
+    // Validar tipo de arquivo
+    if (!file.type.startsWith('image/')) {
+      setError("Por favor, selecione apenas arquivos de imagem");
+      return;
+    }
+
+    // Validar tamanho (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Imagem muito grande. Tamanho máximo: 5MB");
+      return;
+    }
+
+    // ✅ CORREÇÃO: Verificar se está no browser antes de usar URL.createObjectURL
+    if (typeof window !== 'undefined') {
+      const preview = URL.createObjectURL(file);
+      setImagePreview(preview);
     }
   }
 
@@ -55,6 +71,7 @@ export default function NewClass() {
     try {
       await PostService.create({
         title,
+        author,
         content,
         userId: user?.id || "1",
         urlImage: imagePreview || "/classes/banner-aula-1.png",

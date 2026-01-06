@@ -52,14 +52,18 @@ export default function StudentsListPage() {
   }, [user, router]);
 
   async function loadStudents() {
+    console.log('[StudentsPage] 🔄 Carregando alunos...');
     setLoading(true);
     setError(null);
     
     const result = await StudentService.listStudents();
+    console.log('[StudentsPage] 📦 Resultado:', result);
     
     if (result.success) {
+      console.log('[StudentsPage] ✅ Alunos carregados:', result.students?.length || 0);
       setStudents(result.students || []);
     } else {
+      console.error('[StudentsPage] ❌ Erro ao carregar alunos:', result.error);
       setError(result.error || 'Erro ao carregar alunos');
     }
     
@@ -143,8 +147,31 @@ export default function StudentsListPage() {
     );
   }
 
+  // Error State (erro ao carregar)
+  if (error) {
+    return (
+      <Box className={styles.studentsPage}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.title}>
+            Gerenciar Alunos
+          </Typography>
+        </Box>
+
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Button variant="contained" onClick={loadStudents}>
+            Tentar Novamente
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
   // Empty State (lista vazia, mas SEM erro)
-  if (!error && students.length === 0) {
+  if (students.length === 0) {
     return (
       <Box className={styles.studentsPage}>
         <Box className={styles.header}>
@@ -178,13 +205,6 @@ export default function StudentsListPage() {
           Novo Aluno
         </Button>
       </Box>
-
-      {/* Alert fixo no topo (não sobreposto) */}
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
-          {error}
-        </Alert>
-      )}
 
       <TableContainer component={Paper} className={styles.tableContainer}>
         <Table>

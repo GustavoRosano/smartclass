@@ -3,6 +3,7 @@ import api from '../lib/axios';
 export type Post = {
   id: string;
   title: string;
+  author: string;
   content: string;
   userId: string;
   urlImage: string;
@@ -40,7 +41,36 @@ export const PostService = {
 
   async create(post: PostInput): Promise<Post> {
     try {
+      // Validações
+      const errors: string[] = [];
+      
+      if (!post.title || post.title.trim().length < 3) {
+        errors.push('Título deve ter no mínimo 3 caracteres');
+      }
+      
+      if (!post.author || post.author.trim().length < 3) {
+        errors.push('Autor deve ter no mínimo 3 caracteres');
+      }
+      
+      if (!post.content || post.content.trim().length < 10) {
+        errors.push('Conteúdo deve ter no mínimo 10 caracteres');
+      }
+      
+      if (errors.length > 0) {
+        throw new Error(errors.join(', '));
+      }
+
+      console.log('[PostService] 📞 POST /posts com dados:', {
+        title: post.title,
+        author: post.author,
+        userId: post.userId,
+        hasImage: !!post.urlImage
+      });
+
       const response = await api.post<{ postCreated: Post }>('/api/posts', post);
+      
+      console.log('[PostService] ✅ Post criado com sucesso:', response.data.postCreated.id);
+      
       return response.data.postCreated;
     } catch (error) {
       console.error('[PostService] Erro ao criar post:', error);

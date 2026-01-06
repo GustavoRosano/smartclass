@@ -21,7 +21,11 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   }
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <div>Carregando...</div>
+      </div>
+    );
   }
 
   if (!user) {

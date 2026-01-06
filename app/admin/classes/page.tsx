@@ -45,15 +45,19 @@ export default function ClassesListPage() {
   }, [user, router]);
 
   async function loadClasses() {
+    console.log('[ClassesPage] 🔄 Carregando aulas...');
     setLoading(true);
     setError(null);
     
     // Load only teacher's classes
     const result = await ClassService.listClasses(true);
+    console.log('[ClassesPage] 📦 Resultado:', result);
     
     if (result.success && result.classes) {
+      console.log('[ClassesPage] ✅ Aulas carregadas:', result.classes.length);
       setClasses(result.classes);
     } else {
+      console.error('[ClassesPage] ❌ Erro ao carregar aulas:', result.error);
       setError(result.error || 'Erro ao carregar aulas');
     }
     
@@ -100,6 +104,7 @@ export default function ClassesListPage() {
     setClassToDelete(null);
   }
 
+  // Loading State
   if (loading) {
     return (
       <Box className={styles.classesPage}>
@@ -110,29 +115,39 @@ export default function ClassesListPage() {
     );
   }
 
-  return (
-    <Box className={styles.classesPage}>
-      <Box className={styles.header}>
-        <Typography variant="h4" component="h1" className={styles.title}>
-          Minhas Aulas
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          onClick={handleCreateNew}
-          className={styles.createButton}
-        >
-          Nova Aula
-        </Button>
-      </Box>
+  // Error State
+  if (error) {
+    return (
+      <Box className={styles.classesPage}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.title}>
+            Minhas Aulas
+          </Typography>
+        </Box>
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+        <Alert severity="error" sx={{ mb: 3 }}>
           {error}
         </Alert>
-      )}
 
-      {classes.length === 0 ? (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Button variant="contained" onClick={loadClasses}>
+            Tentar Novamente
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
+  // Empty State
+  if (classes.length === 0) {
+    return (
+      <Box className={styles.classesPage}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.title}>
+            Minhas Aulas
+          </Typography>
+        </Box>
+
         <Paper className={styles.emptyState}>
           <Typography variant="h6" color="textSecondary" gutterBottom>
             Nenhuma aula cadastrada
@@ -149,19 +164,39 @@ export default function ClassesListPage() {
             Criar Primeira Aula
           </Button>
         </Paper>
-      ) : (
-        <Box 
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)'
-            },
-            gap: 3
-          }}
+      </Box>
+    );
+  }
+
+  // Success State
+  return (
+    <Box className={styles.classesPage}>
+      <Box className={styles.header}>
+        <Typography variant="h4" component="h1" className={styles.title}>
+          Minhas Aulas
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={handleCreateNew}
+          className={styles.createButton}
         >
-          {classes.map((classData) => {
+          Nova Aula
+        </Button>
+      </Box>
+
+      <Box 
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)'
+          },
+          gap: 3
+        }}
+      >
+        {classes.map((classData) => {
             const stats = ClassService.getClassStats(classData);
             
             return (
@@ -226,8 +261,7 @@ export default function ClassesListPage() {
                 </Card>
             );
           })}
-        </Box>
-      )}
+      </Box>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
@@ -252,6 +286,6 @@ export default function ClassesListPage() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
-  );
-}
+      </Box>
+    );
+  }

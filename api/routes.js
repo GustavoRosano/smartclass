@@ -47,6 +47,10 @@ routes.post('/auth/logout', authenticate, authController.logout);
 // ============================================================================
 // STUDENT ROUTES (Gerenciamento de Alunos)
 // ============================================================================
+console.log('[Routes] ✅ Registrando rotas de Students:');
+console.log('[Routes]    POST   /api/students');
+console.log('[Routes]    GET    /api/students');
+
 // Professor e Admin podem criar/listar alunos
 routes.post('/students', authenticate, authorizeTeacher, studentController.createStudent);
 routes.get('/students', authenticate, authorizeTeacher, studentController.listStudents);
@@ -59,6 +63,10 @@ routes.delete('/students/:id', authenticate, authorizeAdmin, studentController.d
 // ============================================================================
 // CLASS ROUTES (Gerenciamento de Aulas/Turmas)
 // ============================================================================
+console.log('[Routes] ✅ Registrando rotas de Classes:');
+console.log('[Routes]    POST   /api/classes');
+console.log('[Routes]    GET    /api/classes');
+
 // Criar aula - Professor ou Admin
 routes.post('/classes', authenticate, authorizeTeacher, classController.createClass);
 

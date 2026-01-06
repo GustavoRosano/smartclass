@@ -91,20 +91,29 @@ const getPostId = async(req, res) => {
 }
 
 const postPosts = async(req, res)=> {
-    const {title, content, userId, urlImage} = req.body;
+    const {title, author, content, userId, urlImage} = req.body;
     const post = req.body;
 
-    if(!title|| !content|| !userId|| !urlImage){
+    if(!title || !author || !content || !userId || !urlImage){
+        console.error('[PostResource] Campos faltando:', { 
+            title: !!title, 
+            author: !!author, 
+            content: !!content, 
+            userId: !!userId, 
+            urlImage: !!urlImage 
+        });
         
         return res
             .status(400)
-            .json({messsage:" As seguintes informações são obrigatórias: title, content, userId, urlImage"});
+            .json({message: "Título, autor, conteúdo, usuário e url da imagem são obrigatórios"});
     }
     try{
         
         const response = await jsonServer.post('/posts', post);
          
         postCreated = response.data;
+        
+        console.log('[PostResource] ✅ Post criado:', postCreated.id || postCreated._id);
 
         res.status(200).json({postCreated})
     }catch(error){

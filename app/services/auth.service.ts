@@ -46,13 +46,13 @@ export const AuthService = {
 
   saveSession(user: User): void {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('smartclass_user', JSON.stringify(user));
     }
   },
 
   getSession(): User | null {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('user');
+      const saved = localStorage.getItem('smartclass_user');
       return saved ? JSON.parse(saved) : null;
     }
     return null;
@@ -60,7 +60,7 @@ export const AuthService = {
 
   clearSession(): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('user');
+      localStorage.removeItem('smartclass_user');
     }
   }
 };
