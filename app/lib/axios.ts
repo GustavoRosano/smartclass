@@ -26,7 +26,7 @@ api.interceptors.request.use(
       params: config.params
     });
 
-    if (!isServer) {
+    if (!isServer && typeof window !== 'undefined') {
       try {
         const userStr = localStorage.getItem('smartclass_user');
         if (userStr) {
@@ -42,14 +42,18 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.error('[API] ❌ Erro no interceptor de request:', error);
+    return Promise.reject(error);
+  }
 );
 
 api.interceptors.response.use(
   (response) => {
     console.log('[API] ✅ Response:', {
       status: response.status,
-      url: response.config.url
+      url: response.config.url,
+      data: response.data
     });
     return response;
   },
@@ -58,7 +62,9 @@ api.interceptors.response.use(
       message: error.message,
       url: error.config?.url,
       fullURL: error.config?.baseURL ? `${error.config.baseURL}${error.config.url}` : error.config?.url,
-      status: error.response?.status
+      method: error.config?.method?.toUpperCase(),
+      status: error.response?.status,
+      data: error.response?.data
     });
     
     if (error.response) {
