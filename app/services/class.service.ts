@@ -137,9 +137,11 @@ class ClassService {
         classes: response.data.classes?.length
       });
 
+      const data = response.data;
+
       return {
         success: true,
-        classes: response.data.classes || [],
+        classes: Array.isArray(data) ? data : data.classes || [],
         total: response.data.total || 0,
         message: response.data.message
       };

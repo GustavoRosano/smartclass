@@ -29,6 +29,7 @@ export default function NewClass() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [selectedImageName, setSelectedImageName] = useState<string>("");
 
   // ✅ CORREÇÃO: Cleanup de blob URLs ao desmontar
   useEffect(() => {
@@ -45,6 +46,27 @@ export default function NewClass() {
   const isTagValid = tag.trim().length >= 2;
   const isContentValid = content.trim().length >= 10;
   const isFormValid = isTitleValid && isAuthorValid && isTagValid && isContentValid;
+
+  async function uploadImage(file: File): Promise<string> {
+    try {
+      console.log('[NewClass] 📤 Iniciando upload da imagem...');
+      
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const api = (await import('../lib/axios')).default;
+      const response = await api.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      
+      console.log('[NewClass] ✅ Upload concluído:', response.data.url);
+      return response.data.url;
+      
+    } catch (err: any) {
+      console.error('[NewClass] ❌ Erro no upload:', err);
+      throw new Error(err.response?.data?.message || 'Erro ao fazer upload da imagem');
+    }
+  }
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -63,6 +85,7 @@ export default function NewClass() {
     }
 
     setImageFile(file);
+    setSelectedImageName(file.name);
 
     // ✅ CORREÇÃO: Criar preview apenas no browser
     if (typeof window !== 'undefined') {
@@ -86,10 +109,13 @@ export default function NewClass() {
     setError("");
 
     try {
-      // ✅ CORREÇÃO: Não enviar blob URLs
-      const finalImageUrl = imagePreview && !imagePreview.startsWith('blob:')
-        ? imagePreview
-        : "/classes/banner-aula-1.png";
+      // ✅ CORREÇÃO: Upload real da imagem
+      let finalImageUrl = "/classes/banner-aula-1.png";
+      
+      if (imageFile) {
+        console.log('[NewClass] 📤 Fazendo upload da imagem antes de salvar...');
+        finalImageUrl = await uploadImage(imageFile);
+      }
 
       await PostService.create({
         title,
@@ -133,6 +159,11 @@ export default function NewClass() {
 
         {error && <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ marginBottom: 2 }}>Post criado com sucesso! Redirecionando...</Alert>}
+        {selectedImageName && (
+          <Alert severity="info" sx={{ marginBottom: 2 }}>
+            Arquivo selecionado: {selectedImageName}
+          </Alert>
+        )}
 
         <div className={styles.imageContainer}>
           <label htmlFor="imageUpload" className={styles.imageSelector}>

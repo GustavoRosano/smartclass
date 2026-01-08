@@ -24,6 +24,7 @@ const studentController = require('./controllers/student.controller');
 const classController = require('./controllers/class.controller');
 const teacherController = require('./controllers/teacher.controller');
 const adminController = require('./controllers/admin.controller');
+const uploadController = require('./controllers/upload.controller');
 
 // Middleware imports
 const { authenticate, optionalAuth } = require('./middlewares/auth.middleware');
@@ -34,6 +35,19 @@ const {
 } = require('./middlewares/authorization.middleware');
 
 const routes = express.Router()
+
+// ============================================================================
+// UPLOAD ROUTES (Upload de Imagens)
+// ============================================================================
+console.log('[Routes] ✅ Registrando rota de Upload:');
+console.log('[Routes]    POST   /api/upload');
+
+routes.post('/upload', 
+  authenticate, 
+  authorizeTeacher, 
+  uploadController.upload.single('image'), 
+  uploadController.uploadImage
+);
 
 // ============================================================================
 // AUTH ROUTES (Autenticação e Recuperação de Senha)
@@ -47,7 +61,6 @@ routes.post('/auth/logout', authenticate, authController.logout);
 // ============================================================================
 // STUDENT ROUTES (Gerenciamento de Alunos)
 // ============================================================================
-
 console.log('[Routes] ✅ Registrando rotas de Students:');
 console.log('[Routes]    POST   /api/students');
 console.log('[Routes]    GET    /api/students');
@@ -64,7 +77,6 @@ routes.delete('/students/:id', authenticate, authorizeAdmin, studentController.d
 // ============================================================================
 // CLASS ROUTES (Gerenciamento de Aulas/Turmas)
 // ============================================================================
-
 console.log('[Routes] ✅ Registrando rotas de Classes:');
 console.log('[Routes]    POST   /api/classes');
 console.log('[Routes]    GET    /api/classes');
